@@ -14,10 +14,10 @@
   </dependency>
 ```
 
-参考测试类实现
+客户端调用代码可参考测试类代码 `com.jeequan.jeepay.PayOrderTest`
 
 ```java
- package com.jeequan.jeepay;
+package com.jeequan.jeepay;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jeequan.jeepay.exception.JeepayException;
