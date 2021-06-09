@@ -1,23 +1,4 @@
-# jeepay-sdk-java
-
-## 快速开始
-
-下载代码后，编译打包（暂未上传私服，需要自行打包引用）
-
-引入sdk依赖
-
-```xml
-  <dependency>
-      <groupId>com.jeequan</groupId>
-      <artifactId>jeepay-sdk-java</artifactId>
-      <version>1.0.0</version>
-  </dependency>
-```
-
-参考测试类实现
-
-```java
- package com.jeequan.jeepay;
+package com.jeequan.jeepay;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jeequan.jeepay.exception.JeepayException;
@@ -175,5 +156,7 @@ class PayOrderTest {
         }
 
     }
+
+
+
 }
-```
