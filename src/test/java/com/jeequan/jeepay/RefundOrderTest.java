@@ -39,7 +39,6 @@ class RefundOrderTest {
             request.setRequestOptions(options);
         */
 
-        String wayCode = "AUTO_BAR";
         RefundOrderCreateRequest request = new RefundOrderCreateRequest();
         RefundOrderCreateReqModel model = new RefundOrderCreateReqModel();
         model.setMchNo(Jeepay.mchNo);                       // 商户号
