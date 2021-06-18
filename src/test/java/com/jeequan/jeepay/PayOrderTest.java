@@ -54,7 +54,7 @@ class PayOrderTest {
         String orderNo = "mho" + new Date().getTime();
         model.setMchOrderNo(orderNo);                       // 商户订单号
         model.setWayCode(wayCode);                          // 支付方式
-        model.setAmount(58l);                                // 金额，单位分
+        model.setAmount(8l);                                // 金额，单位分
         model.setCurrency("cny");                           // 币种，目前只支持cny
         model.setClientIp("192.166.1.132");                 // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
         model.setSubject("商品标题");                         // 商品标题
@@ -119,7 +119,7 @@ class PayOrderTest {
 
     private String aliBarExtra() {
         JSONObject obj = new JSONObject();
-        obj.put("authCode", "280812820366966512");
+        obj.put("authCode", "1180812820366966512");
         return obj.toString();
     }
 
@@ -141,7 +141,8 @@ class PayOrderTest {
         PayOrderQueryRequest request = new PayOrderQueryRequest();
         PayOrderQueryReqModel model = new PayOrderQueryReqModel();
         model.setMchNo(Jeepay.mchNo);                                           // 商户号
-        model.setPayOrderId("20210529015532444001");                            // 支付订单号
+        model.setAppId(Jeepay.appId);
+        model.setPayOrderId("P202106181104177050002");                            // 支付订单号
         request.setBizModel(model);
 
         try {

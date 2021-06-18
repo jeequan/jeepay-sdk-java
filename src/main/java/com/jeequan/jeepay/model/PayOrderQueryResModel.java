@@ -93,7 +93,7 @@ public class PayOrderQueryResModel extends JeepayObject {
     /**
      * 订单创建时间,13位时间戳
      */
-    private Long createAt;
+    private Long createdAt;
 
     /**
      * 订单支付成功时间,13位时间戳
@@ -220,12 +220,12 @@ public class PayOrderQueryResModel extends JeepayObject {
         this.extParam = extParam;
     }
 
-    public Long getCreateAt() {
-        return createAt;
+    public Long getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Long createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Long getSuccessTime() {
