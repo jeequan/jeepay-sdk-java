@@ -24,6 +24,7 @@ class PayOrderTest {
         Jeepay.setApiBase(JeepayTestData.getApiBase());
         Jeepay.apiKey = JeepayTestData.getApiKey();
         Jeepay.mchNo = JeepayTestData.getMchNo();
+        Jeepay.appId = JeepayTestData.getAppId();
     }
 
     @Test
@@ -45,14 +46,15 @@ class PayOrderTest {
             AUTO_BAR （自动分类条码支付）
         */
 
-        String wayCode = "AUTO_BAR";
+        String wayCode = "ALI_BAR";
         PayOrderCreateRequest request = new PayOrderCreateRequest();
         PayOrderCreateReqModel model = new PayOrderCreateReqModel();
         model.setMchNo(Jeepay.mchNo);                       // 商户号
+        model.setAppId(Jeepay.appId);                       // 应用ID
         String orderNo = "mho" + new Date().getTime();
         model.setMchOrderNo(orderNo);                       // 商户订单号
         model.setWayCode(wayCode);                          // 支付方式
-        model.setAmount(4l);                                // 金额，单位分
+        model.setAmount(58l);                                // 金额，单位分
         model.setCurrency("cny");                           // 币种，目前只支持cny
         model.setClientIp("192.166.1.132");                 // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
         model.setSubject("商品标题");                         // 商品标题
@@ -60,7 +62,7 @@ class PayOrderTest {
         model.setNotifyUrl("https://www.jeequan.com");      // 异步通知地址
         model.setReturnUrl("");                             // 前端跳转地址
         model.setChannelExtra(channelExtra(wayCode));       // 渠道扩展参数
-        model.setExtParam("");                              // 商户扩展参数,会掉时原样返回
+        model.setExtParam("");                              // 商户扩展参数,回调时原样返回
 
         request.setBizModel(model);
 
@@ -73,7 +75,7 @@ class PayOrderTest {
             if(response.isSuccess(Jeepay.apiKey)) {
                 String payOrderId = response.get().getPayOrderId();
                 _log.info("payOrderId：{}", payOrderId);
-                _log.info("payOrderId：{}", response.get().getMchOrderNo());
+                _log.info("mchOrderNo：{}", response.get().getMchOrderNo());
             }else {
                 _log.info("下单失败：{}", orderNo);
                 _log.info("通道错误码：{}", response.get().getErrCode());
@@ -117,7 +119,7 @@ class PayOrderTest {
 
     private String aliBarExtra() {
         JSONObject obj = new JSONObject();
-        obj.put("authCode", "286364366818511766");
+        obj.put("authCode", "280812820366966512");
         return obj.toString();
     }
 

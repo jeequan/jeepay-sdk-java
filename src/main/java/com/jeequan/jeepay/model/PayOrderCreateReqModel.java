@@ -14,6 +14,8 @@ public class PayOrderCreateReqModel extends JeepayObject {
 
     @ApiField("mchNo")
     private String mchNo;      // 商户号
+    @ApiField("appId")
+    private String appId;      // 应用ID
     @ApiField("mchOrderNo")
     String mchOrderNo;          // 商户订单号
     @ApiField("wayCode")
@@ -50,6 +52,14 @@ public class PayOrderCreateReqModel extends JeepayObject {
 
     public void setMchNo(String mchNo) {
         this.mchNo = mchNo;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public String getMchOrderNo() {

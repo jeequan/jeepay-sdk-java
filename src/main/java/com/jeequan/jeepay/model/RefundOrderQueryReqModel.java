@@ -3,12 +3,12 @@ package com.jeequan.jeepay.model;
 import com.jeequan.jeepay.ApiField;
 
 /**
- * 支付查单请求实体类
+ * 退款查单请求实体类
  * @author jmdhappy
  * @site https://www.jeepay.vip
- * @date 2021-06-08 11:00
+ * @date 2021-06-18 10:00
  */
-public class PayOrderQueryReqModel extends JeepayObject{
+public class RefundOrderQueryReqModel extends JeepayObject{
 
     private static final long serialVersionUID = -5184554341263929245L;
 
@@ -23,15 +23,15 @@ public class PayOrderQueryReqModel extends JeepayObject{
     @ApiField("appId")
     private String appId;
     /**
-     * 商户订单号
+     * 商户退款单号
      */
-    @ApiField("mchOrderNo")
-    String mchOrderNo;
+    @ApiField("mchRefundNo")
+    String mchRefundNo;
     /**
-     * 支付订单号
+     * 支付系统退款订单号
      */
-    @ApiField("payOrderId")
-    String payOrderId;
+    @ApiField("refundOrderId")
+    String refundOrderId;
 
     public String getMchNo() {
         return mchNo;
@@ -49,19 +49,19 @@ public class PayOrderQueryReqModel extends JeepayObject{
         this.appId = appId;
     }
 
-    public String getMchOrderNo() {
-        return mchOrderNo;
+    public String getMchRefundNo() {
+        return mchRefundNo;
     }
 
-    public void setMchOrderNo(String mchOrderNo) {
-        this.mchOrderNo = mchOrderNo;
+    public void setMchRefundNo(String mchRefundNo) {
+        this.mchRefundNo = mchRefundNo;
     }
 
-    public String getPayOrderId() {
-        return payOrderId;
+    public String getRefundOrderId() {
+        return refundOrderId;
     }
 
-    public void setPayOrderId(String payOrderId) {
-        this.payOrderId = payOrderId;
+    public void setRefundOrderId(String refundOrderId) {
+        this.refundOrderId = refundOrderId;
     }
 }

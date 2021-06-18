@@ -30,6 +30,8 @@ public abstract class Jeepay {
 
     public static volatile String mchNo;
 
+    public static volatile String appId;
+
     /**
      * 私钥
      */

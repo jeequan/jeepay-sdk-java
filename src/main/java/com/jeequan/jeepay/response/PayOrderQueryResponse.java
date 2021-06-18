@@ -3,7 +3,7 @@ package com.jeequan.jeepay.response;
 import com.jeequan.jeepay.model.PayOrderQueryResModel;
 
 /**
- * Jeepay查单响应实现
+ * Jeepay支付查单响应实现
  * @author jmdhappy
  * @site https://www.jeepay.vip
  * @date 2021-06-08 11:00
