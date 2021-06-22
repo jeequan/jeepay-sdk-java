@@ -44,7 +44,7 @@ class RefundOrderTest {
         model.setMchNo(Jeepay.mchNo);                       // 商户号
         model.setAppId(Jeepay.appId);                       // 应用ID
         model.setMchOrderNo("");                            // 商户支付单号(与支付订单号二者传一)
-        model.setPayOrderId("P202106181104177050002");                            // 支付订单号(与商户支付单号二者传一)
+        model.setPayOrderId("P202106181104177050002");      // 支付订单号(与商户支付单号二者传一)
         String refundOrderNo = "mho" + new Date().getTime();
         model.setMchRefundNo(refundOrderNo);                // 商户退款单号
         model.setRefundAmount(4l);                          // 退款金额，单位分
@@ -62,7 +62,7 @@ class RefundOrderTest {
 
             _log.info("验签结果：{}", response.checkSign(Jeepay.apiKey));
 
-            // 下单成功
+            // 判断退款发起是否成功（并不代表退款成功）
             if(response.isSuccess(Jeepay.apiKey)) {
                 String refundOrderId = response.get().getRefundOrderId();
                 _log.info("refundOrderId：{}", refundOrderId);

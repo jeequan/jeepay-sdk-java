@@ -14,9 +14,7 @@
 
 客户端调用代码可参考：
 
-支付测试代码 `com.jeequan.jeepay.PayOrderTest`
-
-退款测试代码 `com.jeequan.jeepay.RefundOrderTest`
+完整支付测试代码 `com.jeequan.jeepay.PayOrderTest`
 
 ```java
     // 创建客户端
@@ -41,13 +39,48 @@
     model.setExtParam("");                              // 商户扩展参数,会掉时原样返回
     request.setBizModel(model);
     
-    // 发起支付请求
+    // 发起统一下单
     PayOrderCreateResponse response = jeepayClient.execute(request);
 
     // 验证返回数据签名
     response.checkSign(Jeepay.apiKey);
 
     // 判断下单是否返回成功
+    response.isSuccess(Jeepay.apiKey)
+```
+
+完整退款测试代码 `com.jeequan.jeepay.RefundOrderTest`
+
+```java
+    // 创建客户端
+    JeepayClient jeepayClient = new JeepayClient();
+
+    // 构建请求数据
+    RefundOrderCreateRequest request = new RefundOrderCreateRequest();
+    RefundOrderCreateReqModel model = new RefundOrderCreateReqModel();
+    model.setMchNo(Jeepay.mchNo);                       // 商户号
+    model.setAppId(Jeepay.appId);                       // 应用ID
+    model.setMchOrderNo("");                            // 商户支付单号(与支付订单号二者传一)
+    model.setPayOrderId("P202106181104177050002");      // 支付订单号(与商户支付单号二者传一)
+    String refundOrderNo = "mho" + new Date().getTime();
+    model.setMchRefundNo(refundOrderNo);                // 商户退款单号
+    model.setRefundAmount(4l);                          // 退款金额，单位分
+    model.setCurrency("cny");                           // 币种，目前只支持cny
+    model.setClientIp("192.166.1.132");                 // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+    model.setRefundReason("退款测试");                    // 退款原因
+    model.setNotifyUrl("https://www.jeequan.com");      // 异步通知地址
+    model.setChannelExtra("");                          // 渠道扩展参数
+    model.setExtParam("");                              // 商户扩展参数,回调时原样返回
+    request.setBizModel(model);
+    
+    // 发起统一退款
+    RefundOrderCreateResponse response = jeepayClient.execute(request);
+
+    // 验证返回数据签名
+    response.checkSign(Jeepay.apiKey);
+
+    // 判断退款发起是否成功（并不代表退款成功）退款状态 0-订单生成 1-退款中 2-退款成功 3-退款失败 4-退款关闭
+    // 如果 response.get().getState()==2 表示退款成功
     response.isSuccess(Jeepay.apiKey)
 ```
 
