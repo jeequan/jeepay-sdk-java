@@ -56,21 +56,17 @@ class PayOrderTest {
         model.setWayCode(wayCode);                          // 支付方式
         model.setAmount(8l);                                // 金额，单位分
         model.setCurrency("cny");                           // 币种，目前只支持cny
-        model.setClientIp("192.166.1.132");                 // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+        model.setClientIp("192.166.1.132");                 // 发起支付请求客户端的IP地址
         model.setSubject("商品标题");                         // 商品标题
         model.setBody("商品描述");                            // 商品描述
         model.setNotifyUrl("https://www.jeequan.com");      // 异步通知地址
         model.setReturnUrl("");                             // 前端跳转地址
         model.setChannelExtra(channelExtra(wayCode));       // 渠道扩展参数
         model.setExtParam("");                              // 商户扩展参数,回调时原样返回
-
         request.setBizModel(model);
-
         try {
             PayOrderCreateResponse response = jeepayClient.execute(request);
-
             _log.info("验签结果：{}", response.checkSign(Jeepay.apiKey));
-
             // 下单成功
             if(response.isSuccess(Jeepay.apiKey)) {
                 String payOrderId = response.get().getPayOrderId();
@@ -81,7 +77,6 @@ class PayOrderTest {
                 _log.info("通道错误码：{}", response.get().getErrCode());
                 _log.info("通道错误信息：{}", response.get().getErrMsg());
             }
-
         } catch (JeepayException e) {
             _log.error(e.getMessage());
         }
@@ -89,20 +84,12 @@ class PayOrderTest {
     }
 
     String channelExtra(String wayCode) {
-        switch (wayCode) {
-            case "WX_JSAPI":
-                return wxJsapiExtra();
-            case "WX_BAR":
-                return wxBarExtra();
-            case "ALI_BAR":
-                return aliBarExtra();
-            case "QR_CASHIER":
-                return qrCashierExtra();
-            case "AUTO_BAR":
-                return autoBarExtra();
-            default:
-                return "";
-        }
+        if("WX_JSAPI".equals(wayCode)) return wxJsapiExtra();
+        if("WX_BAR".equals(wayCode)) return wxBarExtra();
+        if("ALI_BAR".equals(wayCode)) return aliBarExtra();
+        if("QR_CASHIER".equals(wayCode)) return qrCashierExtra();
+        if("AUTO_BAR".equals(wayCode)) return autoBarExtra();
+        return "";
     }
 
     private String wxJsapiExtra() {
