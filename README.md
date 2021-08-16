@@ -2,13 +2,13 @@
 
 ## 快速开始
 
-引入sdk依赖（最新发布版本1.1.0）
+引入sdk依赖（最新发布版本1.2.0），支持：支付、退款、转账接口。
 
 ```xml
   <dependency>
       <groupId>com.jeequan</groupId>
       <artifactId>jeepay-sdk-java</artifactId>
-      <version>1.1.0</version>
+      <version>1.2.0</version>
   </dependency>
 ```
 
@@ -84,6 +84,43 @@
     response.isSuccess(Jeepay.apiKey)
 ```
 
+完整转账测试代码 `com.jeequan.jeepay.TransferOrderTest`
+
+```java
+    // 创建客户端
+    JeepayClient jeepayClient = new JeepayClient();
+    TransferOrderCreateRequest request = new TransferOrderCreateRequest();
+    TransferOrderCreateReqModel model = new TransferOrderCreateReqModel();
+    model.setMchNo(Jeepay.mchNo);                           // 商户号
+    model.setAppId(Jeepay.appId);                           // 应用ID
+    model.setMchOrderNo("mho" + new Date().getTime());      // 商户转账单号
+    model.setAmount(1L);
+    model.setCurrency("CNY");
+    model.setIfCode("wxpay");
+    model.setEntryType("WX_CASH");
+    model.setAccountNo("a6BcIwtTvIqv1zXZohc61biryWok");
+    model.setAccountName("");
+    model.setTransferDesc("测试转账");
+    model.setClientIp("192.166.1.132");                     // 发起转账请求客户端的IP地址
+    request.setBizModel(model);
+    try {
+        TransferOrderCreateResponse response = jeepayClient.execute(request);
+        _log.info("验签结果：{}", response.checkSign(Jeepay.apiKey));
+        // 判断转账发起是否成功（并不代表转账成功）
+        if(response.isSuccess(Jeepay.apiKey)) {
+            String transferId = response.get().getTransferId();
+            _log.info("transferId：{}", transferId);
+            _log.info("mchOrderNo：{}", response.get().getMchOrderNo());
+        }else {
+            _log.info("下单失败：mchOrderNo={}, msg={}", model.getMchOrderNo(), response.getMsg());
+            _log.info("通道错误码：{}", response.get().getErrCode());
+            _log.info("通道错误信息：{}", response.get().getErrMsg());
+        }
+    } catch (JeepayException e) {
+        _log.error(e.getMessage());
+    }
+```
+
 ## 其他相关
 
 Jeepay是一套适合互联网企业使用的开源支付系统，支持多渠道服务商和普通商户模式。已对接`微信支付`，`支付宝`，`云闪付`官方接口，支持聚合码支付。
@@ -92,6 +129,6 @@ Jeepay使用`Spring Boot`和`Ant Design Vue`开发，集成`Spring Security`实�
 
 - Jeepay支付流程体验：[https://www.jeequan.com/demo/jeepay_cashier.html](https://www.jeequan.com/demo/jeepay_cashier.html "Jeepay支付体验")
 - Jeepay运营平台和商户系统演体验：[https://www.jeequan.com/doc/detail_84.html](https://www.jeequan.com/doc/detail_84.html "Jeepay支付系统体验")
-- Jeepay项目文档：[https://www.jeepay.vip](https://www.jeepay.vip "Jeepay项目文档")
+- Jeepay项目文档：[https://docs.jeequan.com/docs/jeepay/index](https://docs.jeequan.com/docs/jeepay/index "Jeepay项目文档")
 
 Jeepay项目地址：[https://gitee.com/jeequan](https://gitee.com/jeequan "Jeepay项目")
