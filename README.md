@@ -2,13 +2,13 @@
 
 ## 快速开始
 
-引入sdk依赖（最新发布版本1.2.0），支持：支付、退款、转账接口。
+引入sdk依赖（最新发布版本1.3.0），支持：支付、退款、转账接口。
 
 ```xml
   <dependency>
       <groupId>com.jeequan</groupId>
       <artifactId>jeepay-sdk-java</artifactId>
-      <version>1.2.0</version>
+      <version>1.3.0</version>
   </dependency>
 ```
 

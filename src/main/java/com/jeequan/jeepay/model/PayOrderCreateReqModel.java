@@ -42,6 +42,8 @@ public class PayOrderCreateReqModel extends JeepayObject {
     String channelUser;         // 渠道用户标识,如微信openId,支付宝账号
     @ApiField("extParam")
     String extParam;            // 商户扩展参数
+    @ApiField("divisionMode")
+    private Byte divisionMode;   // 分账模式： 0-该笔订单不允许分账[默认], 1-支付成功按配置自动完成分账, 2-商户手动分账(解冻商户金额)
 
     public PayOrderCreateReqModel() {
     }
@@ -166,4 +168,11 @@ public class PayOrderCreateReqModel extends JeepayObject {
         this.extParam = extParam;
     }
 
+    public Byte getDivisionMode() {
+        return divisionMode;
+    }
+
+    public void setDivisionMode(Byte divisionMode) {
+        this.divisionMode = divisionMode;
+    }
 }
