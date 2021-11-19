@@ -38,8 +38,6 @@ public class PayOrderCreateReqModel extends JeepayObject {
     String expiredTime;         // 订单失效时间
     @ApiField("channelExtra")
     String channelExtra;        // 特定渠道额外支付参数
-    @ApiField("channelUser")
-    String channelUser;         // 渠道用户标识,如微信openId,支付宝账号
     @ApiField("extParam")
     String extParam;            // 商户扩展参数
     @ApiField("divisionMode")
@@ -150,14 +148,6 @@ public class PayOrderCreateReqModel extends JeepayObject {
 
     public void setChannelExtra(String channelExtra) {
         this.channelExtra = channelExtra;
-    }
-
-    public String getChannelUser() {
-        return channelUser;
-    }
-
-    public void setChannelUser(String channelUser) {
-        this.channelUser = channelUser;
     }
 
     public String getExtParam() {
