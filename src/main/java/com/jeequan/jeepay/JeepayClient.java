@@ -6,6 +6,9 @@ import com.jeequan.jeepay.net.RequestOptions;
 import com.jeequan.jeepay.request.JeepayRequest;
 import com.jeequan.jeepay.response.JeepayResponse;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Jeepay sdk客户端
  * @author jmdhappy
@@ -14,9 +17,16 @@ import com.jeequan.jeepay.response.JeepayResponse;
  */
 public class JeepayClient extends APIResource {
 
+    private static Map<String, JeepayClient> clientMap = new HashMap<String, JeepayClient>();
+
+    private String appId;
     private String signType = Jeepay.DEFAULT_SIGN_TYPE;
     private String apiKey = Jeepay.apiKey;
     private String apiBase = Jeepay.getApiBase();
+
+    public String getAppId() {
+        return appId;
+    }
 
     public String getSignType() {
         return signType;
@@ -58,6 +68,19 @@ public class JeepayClient extends APIResource {
     }
 
     public JeepayClient() {
+    }
+
+    public static synchronized JeepayClient getInstance(String appId, String apiKey, String apiBase) {
+        JeepayClient client = clientMap.get(appId);
+        if (client != null) {
+            return client;
+        }
+        client = new JeepayClient();
+        clientMap.put(appId, client);
+        client.appId = appId;
+        client.apiKey = apiKey;
+        client.apiBase = apiBase;
+        return client;
     }
 
     public <T extends JeepayResponse> T execute(JeepayRequest<T> request) throws JeepayException {

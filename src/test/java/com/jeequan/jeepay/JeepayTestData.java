@@ -3,17 +3,17 @@ package com.jeequan.jeepay;
 public class JeepayTestData {
 
     public static String getApiBase() {
-        return "http://pay.t.jeepay.vip";
+        return "https://jeepay.natapp4.cc";
     }
 
     public static String getApiKey() {
-        return "z6d0xyeraqyrpyfh4cq4rwafh2bvj0mk6xcf4wge3aj1hhjy670bn2np1nn6oa46lo1ztlxc4pnusnbtb0j68j5vfi7ie4hqhyqpu6x121ir6cbx9ka0v8hkyz34jgl7";
+        return "moUifKdz95rkLUIcCoi85OWbQKRSZ8LVJBLambzTzqV4UPXquJVXneq7lYEGfC39vl0JLaXTxR54efgMoLCHc8WxE2adRBwLLO2PHaWLM72YNLCIuBCGY3ohBQIRlhab";
     }
 
     public static String getMchNo() {
-        return "M1623984572";
+        return "M1625209046";
     }
 
-    public static String getAppId() { return "60cc09bce4b0f1c0b83761c9";}
+    public static String getAppId() { return "60deb8d6c6104c854e2346e4";}
 
 }

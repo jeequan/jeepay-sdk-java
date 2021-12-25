@@ -28,21 +28,12 @@ class RefundOrderTest {
 
     @Test
     public void testRefundOrderCreate() {
-        JeepayClient jeepayClient = new JeepayClient();
-        //jeepayClient.setApiKey("F22nwkjrwre23t552324244");    // 设置apiKey,
-        //jeepayClient.setApiBase("https://pay.jeepay.vip");
-
-        /*
-            支持自己定义RequestOptions属性,更灵活
-            RequestOptions options = RequestOptions.builder().setApiKey("11982212000912313").setUri("api/refund/refundOrder").setReadTimeout(100).build();
-            PayOrderCreateRequest request = new PayOrderCreateRequest();
-            request.setRequestOptions(options);
-        */
-
+        // 接口文档：https://docs.jeequan.com/docs/jeepay/refund_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
         RefundOrderCreateRequest request = new RefundOrderCreateRequest();
         RefundOrderCreateReqModel model = new RefundOrderCreateReqModel();
         model.setMchNo(Jeepay.mchNo);                       // 商户号
-        model.setAppId(Jeepay.appId);                       // 应用ID
+        model.setAppId(jeepayClient.getAppId());            // 应用ID
         model.setMchOrderNo("");                            // 商户支付单号(与支付订单号二者传一)
         model.setPayOrderId("P202106181104177050002");      // 支付订单号(与商户支付单号二者传一)
         String refundOrderNo = "mho" + new Date().getTime();
@@ -76,11 +67,12 @@ class RefundOrderTest {
 
     @Test
     public void testRefundOrderQuery() {
-        JeepayClient jeepayClient = new JeepayClient();
+        // 接口文档：https://docs.jeequan.com/docs/jeepay/refund_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
         RefundOrderQueryRequest request = new RefundOrderQueryRequest();
         RefundOrderQueryReqModel model = new RefundOrderQueryReqModel();
         model.setMchNo(Jeepay.mchNo);                                             // 商户号
-        model.setAppId(Jeepay.appId);                                             // 应用ID
+        model.setAppId(jeepayClient.getAppId());                                  // 应用ID
         model.setRefundOrderId("P202106181105527690009");                         // 退款单号
         request.setBizModel(model);
         try {

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jeequan.jeepay.exception.JeepayException;
 import com.jeequan.jeepay.model.PayOrderCreateReqModel;
 import com.jeequan.jeepay.model.PayOrderQueryReqModel;
+import com.jeequan.jeepay.net.RequestOptions;
 import com.jeequan.jeepay.request.PayOrderCreateRequest;
 import com.jeequan.jeepay.request.PayOrderQueryRequest;
 import com.jeequan.jeepay.response.PayOrderCreateResponse;
@@ -29,13 +30,10 @@ class PayOrderTest {
 
     @Test
     public void testPayOrderCreate() {
-        JeepayClient jeepayClient = new JeepayClient();
-        //jeepayClient.setApiKey("F22nwkjrwre23t552324244");    // 设置apiKey,
-        //jeepayClient.setApiBase("https://pay.jeepay.vip");
 
         /*
             支持自己定义RequestOptions属性,更灵活
-            RequestOptions options = RequestOptions.builder().setApiKey("11982212000912313").setUri("api/pay/unifiedOrder").setReadTimeout(100).build();
+            RequestOptions options = RequestOptions.builder().setAppId("60deb8d6c6104c854e2346e4").setApiKey("11982212000912313").setUri("api/pay/unifiedOrder").setReadTimeout(100).build();
             PayOrderCreateRequest request = new PayOrderCreateRequest();
             request.setRequestOptions(options);
         */
@@ -46,16 +44,18 @@ class PayOrderTest {
             AUTO_BAR （自动分类条码支付）
         */
 
-        String wayCode = "ALI_BAR";
+        // 支付接口文档：https://docs.jeequan.com/docs/jeepay/payment_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
+        String wayCode = "WX_BAR";                           // 支付方式
         PayOrderCreateRequest request = new PayOrderCreateRequest();
         PayOrderCreateReqModel model = new PayOrderCreateReqModel();
         model.setMchNo(Jeepay.mchNo);                       // 商户号
-        model.setAppId(Jeepay.appId);                       // 应用ID
+        model.setAppId(jeepayClient.getAppId());            // 应用ID
         String orderNo = "mho" + new Date().getTime();
         model.setMchOrderNo(orderNo);                       // 商户订单号
         model.setWayCode(wayCode);                          // 支付方式
-        model.setAmount(8l);                                // 金额，单位分
-        model.setCurrency("cny");                           // 币种，目前只支持cny
+        model.setAmount(1l);                                // 金额，单位分
+        model.setCurrency("CNY");                           // 币种，目前只支持cny
         model.setClientIp("192.166.1.132");                 // 发起支付请求客户端的IP地址
         model.setSubject("商品标题");                         // 商品标题
         model.setBody("商品描述");                            // 商品描述
@@ -63,6 +63,7 @@ class PayOrderTest {
         model.setReturnUrl("");                             // 前端跳转地址
         model.setChannelExtra(channelExtra(wayCode));       // 渠道扩展参数
         model.setExtParam("");                              // 商户扩展参数,回调时原样返回
+
         request.setBizModel(model);
         try {
             PayOrderCreateResponse response = jeepayClient.execute(request);
@@ -87,8 +88,11 @@ class PayOrderTest {
         if("WX_JSAPI".equals(wayCode)) return wxJsapiExtra();
         if("WX_BAR".equals(wayCode)) return wxBarExtra();
         if("ALI_BAR".equals(wayCode)) return aliBarExtra();
+        if("YSF_BAR".equals(wayCode)) return ysfBarExtra();
+        if("UPACP_BAR".equals(wayCode)) return upacpBarExtra();
         if("QR_CASHIER".equals(wayCode)) return qrCashierExtra();
         if("AUTO_BAR".equals(wayCode)) return autoBarExtra();
+        if("PP_PC".equals(wayCode)) return ppExtra();
         return "";
     }
 
@@ -110,6 +114,18 @@ class PayOrderTest {
         return obj.toString();
     }
 
+    private String ysfBarExtra() {
+        JSONObject obj = new JSONObject();
+        obj.put("authCode", "6223194037624963090");
+        return obj.toString();
+    }
+
+    private String upacpBarExtra() {
+        JSONObject obj = new JSONObject();
+        obj.put("authCode", "6227662446181058584");
+        return obj.toString();
+    }
+
     private String qrCashierExtra() {
         JSONObject obj = new JSONObject();
         obj.put("payDataType", "codeImgUrl");
@@ -122,14 +138,21 @@ class PayOrderTest {
         return obj.toString();
     }
 
+    private String ppExtra() {
+        JSONObject obj = new JSONObject();
+        obj.put("cancelUrl", "http://baidu.com");
+        return obj.toString();
+    }
+
     @Test
     public void testPayOrderQuery() {
-        JeepayClient jeepayClient = new JeepayClient();
+        // 支付接口文档：https://docs.jeequan.com/docs/jeepay/payment_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
         PayOrderQueryRequest request = new PayOrderQueryRequest();
         PayOrderQueryReqModel model = new PayOrderQueryReqModel();
         model.setMchNo(Jeepay.mchNo);                                           // 商户号
-        model.setAppId(Jeepay.appId);
-        model.setPayOrderId("P202106181104177050002");                            // 支付订单号
+        model.setAppId(jeepayClient.getAppId());                                // 应用ID
+        model.setPayOrderId("P202106181104177050002");                          // 支付订单号
         request.setBizModel(model);
 
         try {
@@ -146,7 +169,5 @@ class PayOrderTest {
         }
 
     }
-
-
 
 }

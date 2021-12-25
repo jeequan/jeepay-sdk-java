@@ -13,7 +13,7 @@ public class RequestOptions {
     private String uri;
     private String version;
     private String signType;
-
+    private String appId;
     private String apiKey;
 
     private int connectTimeout;
@@ -26,6 +26,7 @@ public class RequestOptions {
                 uri,
                 version,
                 Jeepay.DEFAULT_SIGN_TYPE,
+                Jeepay.appId,
                 Jeepay.apiKey,
                 Jeepay.getConnectTimeout(),
                 Jeepay.getReadTimeout(),
@@ -37,6 +38,7 @@ public class RequestOptions {
             String uri,
             String version,
             String signType,
+            String appId,
             String apiKey,
             int connectTimeout,
             int readTimeout,
@@ -45,6 +47,7 @@ public class RequestOptions {
         this.uri = uri;
         this.version = version;
         this.signType = signType;
+        this.appId = appId;
         this.apiKey = apiKey;
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
@@ -62,6 +65,10 @@ public class RequestOptions {
 
     public String getSignType() {
         return signType;
+    }
+
+    public String getAppId() {
+        return appId;
     }
 
     public String getApiKey() {
@@ -92,6 +99,7 @@ public class RequestOptions {
         private String uri;
         private String version;
         private String signType;
+        private String appId;
         private String apiKey;
         private int connectTimeout;
         private int readTimeout;
@@ -100,6 +108,7 @@ public class RequestOptions {
 
         public RequestOptionsBuilder() {
             this.signType = Jeepay.DEFAULT_SIGN_TYPE;
+            this.appId = Jeepay.appId;
             this.apiKey = Jeepay.apiKey;
             this.connectTimeout = Jeepay.getConnectTimeout();
             this.readTimeout = Jeepay.getReadTimeout();
@@ -131,6 +140,20 @@ public class RequestOptions {
 
         public RequestOptionsBuilder setSignType(String signType) {
             this.signType = signType;
+            return this;
+        }
+
+        public String getAppId() {
+            return appId;
+        }
+
+        public RequestOptionsBuilder setAppId(String appId) {
+            this.apiKey = normalizeAppId(appId);
+            return this;
+        }
+
+        public RequestOptionsBuilder clearAppId() {
+            this.appId = null;
             return this;
         }
 
@@ -189,6 +212,7 @@ public class RequestOptions {
                     normalizeApiUri(this.uri),
                     version,
                     signType,
+                    normalizeAppId(this.appId),
                     normalizeApiKey(this.apiKey),
                     connectTimeout,
                     readTimeout,
@@ -205,6 +229,17 @@ public class RequestOptions {
             throw new InvalidRequestOptionsException("接口URI("+apiUri+")不能以'/'开头");
         }
         return apiUri;
+    }
+
+    private static String normalizeAppId(String appId) {
+        if (appId == null) {
+            return null;
+        }
+        String normalized = appId.trim();
+        if (normalized.isEmpty()) {
+            throw new InvalidRequestOptionsException("appId不能为空!");
+        }
+        return normalized;
     }
 
     private static String normalizeApiKey(String apiKey) {

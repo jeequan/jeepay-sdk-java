@@ -23,25 +23,21 @@ class DivisionReceiverBindTest {
 
     @Test
     public void testDivisionReceiverBind() {
-        JeepayClient jeepayClient = new JeepayClient();
-        //jeepayClient.setApiKey("F22nwkjrwre23t552324244");    // 设置apiKey,
-        //jeepayClient.setApiBase("https://pay.jeepay.vip");
-
+        // 分账接口文档：https://docs.jeequan.com/docs/jeepay/division_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
         DivisionReceiverBindRequest request = new DivisionReceiverBindRequest();
         DivisionReceiverBindReqModel model = new DivisionReceiverBindReqModel();
-
         model.setMchNo(Jeepay.mchNo);                       // 商户号
-        model.setAppId(Jeepay.appId);                       // 应用ID
-        model.setIfCode("wxpay");
-        model.setReceiverAlias("wxpay");
-        model.setReceiverGroupId(100001L);
-        model.setAccType((byte)0);
-        model.setAccNo("OPENIDOPENIDOPENIDOPENIDOPENID");
-        model.setAccName("测试账号");
-        model.setRelationType("PARTNER");
-        model.setRelationTypeName("合作伙伴");
-        model.setDivisionProfit("0.01");
-
+        model.setAppId(jeepayClient.getAppId());            // 应用ID
+        model.setIfCode("shengpay");
+        model.setReceiverAlias("计全");
+        model.setReceiverGroupId(100003L);
+        model.setAccType((byte)1);
+        model.setAccNo("32617592");
+        model.setAccName("骏易科技");
+        model.setRelationType("SERVICE_PROVIDER");
+        model.setRelationTypeName("服务商");
+        model.setDivisionProfit("0.10");
         request.setBizModel(model);
 
         try {

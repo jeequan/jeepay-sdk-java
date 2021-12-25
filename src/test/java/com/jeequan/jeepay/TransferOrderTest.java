@@ -28,14 +28,12 @@ class TransferOrderTest {
 
     @Test
     public void testTransferOrderCreate() {
-        JeepayClient jeepayClient = new JeepayClient();
-        //jeepayClient.setApiKey("F22nwkjrwre23t552324244");    // 设置apiKey,
-        //jeepayClient.setApiBase("https://pay.jeepay.vip");
-
+        // 转账接口文档：https://docs.jeequan.com/docs/jeepay/transfer_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
         TransferOrderCreateRequest request = new TransferOrderCreateRequest();
         TransferOrderCreateReqModel model = new TransferOrderCreateReqModel();
         model.setMchNo(Jeepay.mchNo);                       // 商户号
-        model.setAppId(Jeepay.appId);                       // 应用ID
+        model.setAppId(jeepayClient.getAppId());            // 应用ID
         model.setMchOrderNo("mho" + new Date().getTime());                // 商户转账单号
         model.setAmount(1L);
         model.setCurrency("CNY");
@@ -68,11 +66,12 @@ class TransferOrderTest {
 
     @Test
     public void testTransferOrderQuery() {
-        JeepayClient jeepayClient = new JeepayClient();
+        // 转账接口文档：https://docs.jeequan.com/docs/jeepay/transfer_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
         TransferOrderQueryRequest request = new TransferOrderQueryRequest();
         TransferOrderQueryReqModel model = new TransferOrderQueryReqModel();
-        model.setMchNo(Jeepay.mchNo);                                             // 商户号
-        model.setAppId(Jeepay.appId);                                             // 应用ID
+        model.setMchNo(Jeepay.mchNo);                                          // 商户号
+        model.setAppId(jeepayClient.getAppId());                               // 应用ID
         model.setTransferId("T202108121543441860003");                         // 转账单号
         request.setBizModel(model);
         try {

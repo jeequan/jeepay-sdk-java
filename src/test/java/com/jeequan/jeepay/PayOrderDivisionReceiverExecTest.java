@@ -27,23 +27,19 @@ class PayOrderDivisionReceiverExecTest {
 
     @Test
     public void testPayOrderDivisionExec() {
-        JeepayClient jeepayClient = new JeepayClient();
-        //jeepayClient.setApiKey("F22nwkjrwre23t552324244");    // 设置apiKey,
-        //jeepayClient.setApiBase("https://pay.jeepay.vip");
-
+        // 分账接口文档：https://docs.jeequan.com/docs/jeepay/division_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
         PayOrderDivisionExecRequest request = new PayOrderDivisionExecRequest();
         PayOrderDivisionExecReqModel model = new PayOrderDivisionExecReqModel();
         request.setBizModel(model);
-
         model.setMchNo(Jeepay.mchNo);                       // 商户号
-        model.setAppId(Jeepay.appId);                       // 应用ID
-
-        model.setPayOrderId("P202108271011207970001");
+        model.setAppId(jeepayClient.getAppId());            // 应用ID
+        model.setPayOrderId("P1470667876906389505");
         model.setUseSysAutoDivisionReceivers((byte) 0);
 
         JSONArray receviers = new JSONArray();
-        receviers.add(JSONObject.parseObject("{receiverId: '800029', receiverGroupId: '', divisionProfit: '0.0001'}"));
-        receviers.add(JSONObject.parseObject("{receiverId: '800028', receiverGroupId: '', divisionProfit: '0.0002'}"));
+        receviers.add(JSONObject.parseObject("{receiverId: '800004', receiverGroupId: '', divisionProfit: '0.1'}"));
+        receviers.add(JSONObject.parseObject("{receiverId: '800005', receiverGroupId: '', divisionProfit: '0.2'}"));
 
         model.setReceivers(receviers.toJSONString());
 
