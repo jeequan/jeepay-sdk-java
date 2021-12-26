@@ -83,6 +83,29 @@ public class JeepayClient extends APIResource {
         return client;
     }
 
+    public static synchronized JeepayClient getInstance(String appId, String apiKey) {
+        JeepayClient client = clientMap.get(appId);
+        if (client != null) {
+            return client;
+        }
+        client = new JeepayClient();
+        clientMap.put(appId, client);
+        client.appId = appId;
+        client.apiKey = apiKey;
+        return client;
+    }
+
+    public static synchronized JeepayClient getInstance(String appId) {
+        JeepayClient client = clientMap.get(appId);
+        if (client != null) {
+            return client;
+        }
+        client = new JeepayClient();
+        clientMap.put(appId, client);
+        client.appId = appId;
+        return client;
+    }
+
     public <T extends JeepayResponse> T execute(JeepayRequest<T> request) throws JeepayException {
 
         // 支持用户自己设置RequestOptions
@@ -90,6 +113,7 @@ public class JeepayClient extends APIResource {
             RequestOptions options = RequestOptions.builder()
                     .setVersion(request.getApiVersion())
                     .setUri(request.getApiUri())
+                    .setAppId(this.appId)
                     .setApiKey(this.apiKey)
                     .build();
             request.setRequestOptions(options);
