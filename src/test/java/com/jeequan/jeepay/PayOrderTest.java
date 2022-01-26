@@ -5,7 +5,6 @@ import com.jeequan.jeepay.exception.JeepayException;
 import com.jeequan.jeepay.model.PayOrderCloseReqModel;
 import com.jeequan.jeepay.model.PayOrderCreateReqModel;
 import com.jeequan.jeepay.model.PayOrderQueryReqModel;
-import com.jeequan.jeepay.net.RequestOptions;
 import com.jeequan.jeepay.request.PayOrderCloseRequest;
 import com.jeequan.jeepay.request.PayOrderCreateRequest;
 import com.jeequan.jeepay.request.PayOrderQueryRequest;
@@ -96,6 +95,7 @@ class PayOrderTest {
         if("QR_CASHIER".equals(wayCode)) return qrCashierExtra();
         if("AUTO_BAR".equals(wayCode)) return autoBarExtra();
         if("PP_PC".equals(wayCode)) return ppExtra();
+        if("SAND_H5".equals(wayCode)) return sandH5Extra();
         return "";
     }
 
@@ -145,6 +145,39 @@ class PayOrderTest {
         JSONObject obj = new JSONObject();
         obj.put("cancelUrl", "http://baidu.com");
         return obj.toString();
+    }
+
+    private String sandH5Extra() {
+        JSONObject obj = new JSONObject();
+        JSONObject payExtra = new JSONObject();
+        // 聚合码
+        obj.put("productCode", "02000001");
+        obj.put("payExtra", "");
+        obj.put("metaOption", "[{\"s\":\"Pc\",\"n\":\"支付\"}]");
+        // 微信公众号
+        /*obj.put("productCode", "02010002");
+        payExtra = new JSONObject();
+        payExtra.put("mer_app_id", "");
+        payExtra.put("openid", "");
+        obj.put("payExtra", payExtra.toString());
+        obj.put("metaOption", "");
+        // 微信小程序(云函数sdk)
+        obj.put("productCode", "02010007");
+        payExtra = new JSONObject();
+        payExtra.put("wx_app_id", "");  // 移动应用Appid（微信开放平台获取，wx开头）
+        payExtra.put("gh_ori_id", "");  // 小程序原始id（微信公众平台获取，gh_开头）
+        payExtra.put("path_url", "");   // 拉起小程序页面的可带参路径，不填默认拉起小程序首页
+        payExtra.put("miniProgramType", "0");   // 开发时根据小程序是开发版、体验版或正式版自行选择。正式版:0; 开发版:1; 体验版:2
+        obj.put("payExtra", payExtra.toString());
+        obj.put("metaOption", "");
+        // 支付宝生活号
+        obj.put("productCode", "02010002");
+        payExtra = new JSONObject();
+        payExtra.put("buyer_id", "");  // 支付宝生活号所需参数（支付宝H5建议不传）
+        obj.put("payExtra", payExtra.toString());
+        obj.put("metaOption", "");*/
+        return obj.toString();
+
     }
 
     @Test
