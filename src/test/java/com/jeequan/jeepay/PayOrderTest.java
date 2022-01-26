@@ -2,11 +2,14 @@ package com.jeequan.jeepay;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jeequan.jeepay.exception.JeepayException;
+import com.jeequan.jeepay.model.PayOrderCloseReqModel;
 import com.jeequan.jeepay.model.PayOrderCreateReqModel;
 import com.jeequan.jeepay.model.PayOrderQueryReqModel;
 import com.jeequan.jeepay.net.RequestOptions;
+import com.jeequan.jeepay.request.PayOrderCloseRequest;
 import com.jeequan.jeepay.request.PayOrderCreateRequest;
 import com.jeequan.jeepay.request.PayOrderQueryRequest;
+import com.jeequan.jeepay.response.PayOrderCloseResponse;
 import com.jeequan.jeepay.response.PayOrderCreateResponse;
 import com.jeequan.jeepay.response.PayOrderQueryResponse;
 import org.junit.jupiter.api.BeforeAll;
@@ -170,4 +173,27 @@ class PayOrderTest {
 
     }
 
+    @Test
+    public void testPayOrderClose() {
+        JeepayClient jeepayClient = new JeepayClient();
+        PayOrderCloseRequest request = new PayOrderCloseRequest();
+        PayOrderCloseReqModel model = new PayOrderCloseReqModel();
+        model.setMchNo(Jeepay.mchNo);                                           // 商户号
+        model.setAppId(Jeepay.appId);
+        model.setPayOrderId("P1485879219030011906");                            // 支付订单号
+        request.setBizModel(model);
+
+        try {
+            PayOrderCloseResponse response = jeepayClient.execute(request);
+            _log.info("验签结果：{}", response.checkSign(Jeepay.apiKey));
+
+            if(response.isSuccess(Jeepay.apiKey)) {
+                _log.info("返回信息：{}", response);
+            }
+        } catch (JeepayException e) {
+
+            e.printStackTrace();
+        }
+
+    }
 }
