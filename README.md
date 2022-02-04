@@ -2,13 +2,13 @@
 
 ## 快速开始
 
-引入sdk依赖（最新发布版本1.3.0），支持：支付、退款、转账接口。
+引入sdk依赖（最新发布版本1.5.0），支持：支付、退款、转账、分账等接口。
 
 ```xml
   <dependency>
       <groupId>com.jeequan</groupId>
       <artifactId>jeepay-sdk-java</artifactId>
-      <version>1.3.0</version>
+      <version>1.5.0</version>
   </dependency>
 ```
 
@@ -18,26 +18,26 @@
 
 ```java
     // 创建客户端
-    JeepayClient jeepayClient = new JeepayClient();
+    JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey);
 
     // 构建请求数据
-    String wayCode = "AUTO_BAR";
+    String wayCode = "WX_BAR";                           // 支付方式
     PayOrderCreateRequest request = new PayOrderCreateRequest();
     PayOrderCreateReqModel model = new PayOrderCreateReqModel();
     model.setMchNo(Jeepay.mchNo);                       // 商户号
+    model.setAppId(jeepayClient.getAppId());            // 应用ID
     String orderNo = "mho" + new Date().getTime();
     model.setMchOrderNo(orderNo);                       // 商户订单号
     model.setWayCode(wayCode);                          // 支付方式
-    model.setAmount(4l);                                // 金额，单位分
-    model.setCurrency("cny");                           // 币种，目前只支持cny
-    model.setClientIp("192.166.1.132");                 // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+    model.setAmount(1l);                                // 金额，单位分
+    model.setCurrency("CNY");                           // 币种，目前只支持cny
+    model.setClientIp("192.166.1.132");                 // 发起支付请求客户端的IP地址
     model.setSubject("商品标题");                         // 商品标题
     model.setBody("商品描述");                            // 商品描述
     model.setNotifyUrl("https://www.jeequan.com");      // 异步通知地址
     model.setReturnUrl("");                             // 前端跳转地址
     model.setChannelExtra(channelExtra(wayCode));       // 渠道扩展参数
-    model.setExtParam("");                              // 商户扩展参数,会掉时原样返回
-    request.setBizModel(model);
+    model.setExtParam("");                              // 商户扩展参数,回调时原样返回
     
     // 发起统一下单
     PayOrderCreateResponse response = jeepayClient.execute(request);
@@ -53,7 +53,7 @@
 
 ```java
     // 创建客户端
-    JeepayClient jeepayClient = new JeepayClient();
+    JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey);
 
     // 构建请求数据
     RefundOrderCreateRequest request = new RefundOrderCreateRequest();
@@ -88,7 +88,7 @@
 
 ```java
     // 创建客户端
-    JeepayClient jeepayClient = new JeepayClient();
+    JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey);
     TransferOrderCreateRequest request = new TransferOrderCreateRequest();
     TransferOrderCreateReqModel model = new TransferOrderCreateReqModel();
     model.setMchNo(Jeepay.mchNo);                           // 商户号
