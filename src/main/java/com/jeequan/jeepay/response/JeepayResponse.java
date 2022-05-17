@@ -2,6 +2,7 @@ package com.jeequan.jeepay.response;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jeequan.jeepay.util.JeepayKit;
+import com.jeequan.jeepay.util.JeepayRSA2Kit;
 import com.jeequan.jeepay.util.StringUtils;
 
 import java.io.Serializable;
@@ -32,6 +33,20 @@ public abstract class JeepayResponse implements Serializable  {
     }
 
     /**
+     * 校验响应数据签名是否正确
+     * @param apiKey
+     * @return
+     */
+    public boolean checkSignByRsa2(String apiKey) {
+        if(data == null && StringUtils.isEmpty(getSign())) return true;
+        try {
+            return JeepayRSA2Kit.verify(data, apiKey, getSign());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
      * 校验是否成功(只判断code为0，具体业务要看实际情况)
      * @param apiKey
      * @return
@@ -39,6 +54,16 @@ public abstract class JeepayResponse implements Serializable  {
     public boolean isSuccess(String apiKey) {
         if(StringUtils.isEmpty(apiKey)) return code == 0;
         return code == 0 && checkSign(apiKey);
+    }
+
+    /**
+     * 校验是否成功(只判断code为0，具体业务要看实际情况)
+     * @param apiKey
+     * @return
+     */
+    public boolean isSuccessByRsa2(String apiKey) {
+        if(StringUtils.isEmpty(apiKey)) return code == 0;
+        return code == 0 && checkSignByRsa2(apiKey);
     }
 
     public static long getSerialVersionUID() {

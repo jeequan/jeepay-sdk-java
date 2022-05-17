@@ -4,6 +4,7 @@ import com.jeequan.jeepay.Jeepay;
 import com.jeequan.jeepay.exception.APIConnectionException;
 import com.jeequan.jeepay.exception.JeepayException;
 import com.jeequan.jeepay.util.JeepayKit;
+import com.jeequan.jeepay.util.JeepayRSA2Kit;
 import com.jeequan.jeepay.util.StringUtils;
 
 import java.io.IOException;
@@ -232,7 +233,11 @@ public class APIJeepayRequest {
         if("MD5".equalsIgnoreCase(signType)) {
             return JeepayKit.getSign(params, options.getApiKey());
         }else if("RSA2".equalsIgnoreCase(signType)) {
-            throw new AssertionError("暂不支持RSA2签名");
+            try {
+                return JeepayRSA2Kit.getSign(params, options.getApiKey());
+            } catch (Exception e) {
+                throw new IOException(e.getMessage());
+            }
         }
         throw new AssertionError("请设置正确的签名类型");
     }

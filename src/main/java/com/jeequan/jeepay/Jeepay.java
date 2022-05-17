@@ -11,6 +11,7 @@ public abstract class Jeepay {
     public static final String LIVE_API_BASE = "https://pay.jeepay.vip";
     public static final String VERSION = "1.0";
     public static final String DEFAULT_SIGN_TYPE = "MD5";
+    public static final String SIGN_TYPE_RSA2 = "RSA2";
     public static final String API_VERSION_NAME = "version";
     public static final String API_SIGN_TYPE_NAME = "signType";
     public static final String API_SIGN_NAME = "sign";
@@ -36,6 +37,16 @@ public abstract class Jeepay {
      * 私钥
      */
     public static volatile String apiKey;
+
+    /**
+     * RSA2: 应用私钥
+     */
+    public static volatile String rsa2AppPrivateKey;
+
+    /**
+     * RSA2: 支付网关公钥
+     */
+    public static volatile String rsa2PayPublicKey;
 
     /**
      * API 地址

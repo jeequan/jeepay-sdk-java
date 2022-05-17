@@ -122,4 +122,21 @@ public class JeepayClient extends APIResource {
         return execute(request, RequestMethod.POST, this.apiBase);
     }
 
+    public <T extends JeepayResponse> T executeByRSA2(JeepayRequest<T> request) throws JeepayException {
+
+        // 支持用户自己设置RequestOptions
+        if(request.getRequestOptions() == null) {
+            RequestOptions options = RequestOptions.builder()
+                    .setVersion(request.getApiVersion())
+                    .setUri(request.getApiUri())
+                    .setAppId(this.appId)
+                    .setApiKey(this.apiKey)
+                    .setSignType(Jeepay.SIGN_TYPE_RSA2)
+                    .build();
+            request.setRequestOptions(options);
+        }
+
+        return execute(request, RequestMethod.POST, this.apiBase);
+    }
+
 }
