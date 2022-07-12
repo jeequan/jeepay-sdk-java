@@ -48,7 +48,7 @@ class PayOrderTest {
 
         // 支付接口文档：https://docs.jeequan.com/docs/jeepay/payment_api
         JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
-        String wayCode = "WX_BAR";                           // 支付方式
+        String wayCode = "WX_LITE";                           // 支付方式
         PayOrderCreateRequest request = new PayOrderCreateRequest();
         PayOrderCreateReqModel model = new PayOrderCreateReqModel();
         model.setMchNo(Jeepay.mchNo);                       // 商户号
@@ -87,6 +87,7 @@ class PayOrderTest {
     }
 
     String channelExtra(String wayCode) {
+        if("WX_LITE".equals(wayCode)) return wxJsapiExtra();
         if("WX_JSAPI".equals(wayCode)) return wxJsapiExtra();
         if("WX_BAR".equals(wayCode)) return wxBarExtra();
         if("ALI_BAR".equals(wayCode)) return aliBarExtra();
