@@ -98,6 +98,42 @@ public class APIJeepayRequest {
         return new URL(sb.toString());
     }
 
+    public static URL buildURLWithSign(String url, Map<String, Object> params, RequestOptions options) throws APIConnectionException {
+
+        params.put(Jeepay.API_VERSION_NAME, options.getVersion());
+        params.put(Jeepay.API_SIGN_TYPE_NAME, options.getSignType());
+        String requestTime = currentTimeString();
+        params.put(Jeepay.API_REQ_TIME_NAME, requestTime);
+        String signature;
+        try {
+            signature = buildJeepaySignature(params, options);
+        } catch (IOException e) {
+            throw new APIConnectionException("生成Jeepay请求签名异常", e);
+        }
+
+        if (signature != null) {
+            params.put(Jeepay.API_SIGN_NAME, signature);
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(StringUtils.genUrl(url, options.getUri()));
+
+        if (params != null) {
+            String queryString = createQuery(params);
+            if (!queryString.isEmpty()) {
+                sb.append("?");
+                sb.append(queryString);
+            }
+        }
+
+        try {
+            return new URL(sb.toString());
+        } catch (IOException e){
+            throw new APIConnectionException("生成 Jeepay 请求URL异常", e);
+        }
+    }
+
     private static HttpContent buildContent (
             APIResource.RequestMethod method, Map<String, Object> params, RequestOptions options) throws JeepayException {
         if (method != APIResource.RequestMethod.POST && method != APIResource.RequestMethod.PUT) {

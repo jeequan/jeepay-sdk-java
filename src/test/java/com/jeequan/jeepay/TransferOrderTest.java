@@ -1,8 +1,10 @@
 package com.jeequan.jeepay;
 
 import com.jeequan.jeepay.exception.JeepayException;
+import com.jeequan.jeepay.model.ChannelUserReqModel;
 import com.jeequan.jeepay.model.TransferOrderCreateReqModel;
 import com.jeequan.jeepay.model.TransferOrderQueryReqModel;
+import com.jeequan.jeepay.request.ChannelUserRequest;
 import com.jeequan.jeepay.request.TransferOrderCreateRequest;
 import com.jeequan.jeepay.request.TransferOrderQueryRequest;
 import com.jeequan.jeepay.response.TransferOrderCreateResponse;
@@ -29,7 +31,8 @@ class TransferOrderTest {
     @Test
     public void testTransferOrderCreate() {
         // 转账接口文档：https://docs.jeequan.com/docs/jeepay/transfer_api
-        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey,
+            Jeepay.getApiBase());
         TransferOrderCreateRequest request = new TransferOrderCreateRequest();
         TransferOrderCreateReqModel model = new TransferOrderCreateReqModel();
         model.setMchNo(Jeepay.mchNo);                       // 商户号
@@ -49,11 +52,11 @@ class TransferOrderTest {
             TransferOrderCreateResponse response = jeepayClient.execute(request);
             _log.info("验签结果：{}", response.checkSign(Jeepay.apiKey));
             // 判断转账发起是否成功（并不代表转账成功）
-            if(response.isSuccess(Jeepay.apiKey)) {
+            if (response.isSuccess(Jeepay.apiKey)) {
                 String transferId = response.get().getTransferId();
                 _log.info("transferId：{}", transferId);
                 _log.info("mchOrderNo：{}", response.get().getMchOrderNo());
-            }else {
+            } else {
                 _log.info("下单失败：mchOrderNo={}, msg={}", model.getMchOrderNo(), response.getMsg());
                 _log.info("通道错误码：{}", response.get().getErrCode());
                 _log.info("通道错误信息：{}", response.get().getErrMsg());
@@ -67,7 +70,8 @@ class TransferOrderTest {
     @Test
     public void testTransferOrderQuery() {
         // 转账接口文档：https://docs.jeequan.com/docs/jeepay/transfer_api
-        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey,
+            Jeepay.getApiBase());
         TransferOrderQueryRequest request = new TransferOrderQueryRequest();
         TransferOrderQueryReqModel model = new TransferOrderQueryReqModel();
         model.setMchNo(Jeepay.mchNo);                                          // 商户号
@@ -77,7 +81,7 @@ class TransferOrderTest {
         try {
             TransferOrderQueryResponse response = jeepayClient.execute(request);
             _log.info("验签结果：{}", response.checkSign(Jeepay.apiKey));
-            if(response.isSuccess(Jeepay.apiKey)) {
+            if (response.isSuccess(Jeepay.apiKey)) {
                 _log.info("订单信息：{}", response);
                 _log.info("转账状态：{}", response.get().getState());
                 _log.info("转账金额：{}", response.get().getAmount());
@@ -89,5 +93,24 @@ class TransferOrderTest {
     }
 
 
+    @Test
+    public void getChannelUserIdUrl() {
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey,
+            Jeepay.getApiBase());
+        ChannelUserRequest request = new ChannelUserRequest();
+        ChannelUserReqModel model = new ChannelUserReqModel();
+        model.setAppId(jeepayClient.getAppId());
+        model.setMchNo(Jeepay.mchNo);
+        model.setRedirectUrl("https://httpdump.io/30cbe");
+        model.setIfCode("AUTO");
+        request.setBizModel(model);
 
+        try {
+            String url = jeepayClient.getRequestUrl(request);
+            _log.info("跳转 URL: {}", url);
+        } catch (JeepayException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
