@@ -6,7 +6,7 @@
 
     <groupId>com.jeequan</groupId>
     <artifactId>jeepay-sdk-java</artifactId>
-    <version>pls-1.0.0</version>
+    <version>pls-1.2.0</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -41,7 +41,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <logback-classic.version>1.2.7</logback-classic.version>
 
-        <fastjson.version>1.2.78</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
     </properties>
 
     <dependencies>
