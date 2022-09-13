@@ -73,6 +73,8 @@ public class JeepayClient extends APIResource {
     public static synchronized JeepayClient getInstance(String appId, String apiKey, String apiBase) {
         JeepayClient client = clientMap.get(appId);
         if (client != null) {
+            client.setApiKey(apiKey);
+            client.setApiBase(apiBase);
             return client;
         }
         client = new JeepayClient();
@@ -86,6 +88,7 @@ public class JeepayClient extends APIResource {
     public static synchronized JeepayClient getInstance(String appId, String apiKey) {
         JeepayClient client = clientMap.get(appId);
         if (client != null) {
+            client.setApiKey(apiKey);
             return client;
         }
         client = new JeepayClient();
