@@ -43,6 +43,15 @@ public class PayOrderCreateReqModel extends JeepayObject {
     @ApiField("divisionMode")
     private Byte divisionMode;   // 分账模式： 0-该笔订单不允许分账[默认], 1-支付成功按配置自动完成分账, 2-商户手动分账(解冻商户金额)
 
+    @ApiField("qrcId")
+    private Long qrcId;   // 码牌ID
+
+    @ApiField("deviceType")
+    private String deviceType;   // 设备类型
+
+    @ApiField("deviceNo")
+    private String deviceNo;   // 设备号，对应值参考设备类型
+
     public PayOrderCreateReqModel() {
     }
 
@@ -164,5 +173,29 @@ public class PayOrderCreateReqModel extends JeepayObject {
 
     public void setDivisionMode(Byte divisionMode) {
         this.divisionMode = divisionMode;
+    }
+
+    public Long getQrcId() {
+        return qrcId;
+    }
+
+    public void setQrcId(Long qrcId) {
+        this.qrcId = qrcId;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public String getDeviceNo() {
+        return deviceNo;
+    }
+
+    public void setDeviceNo(String deviceNo) {
+        this.deviceNo = deviceNo;
     }
 }
