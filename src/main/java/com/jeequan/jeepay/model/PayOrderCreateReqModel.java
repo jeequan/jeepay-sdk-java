@@ -52,6 +52,9 @@ public class PayOrderCreateReqModel extends JeepayObject {
     @ApiField("deviceNo")
     private String deviceNo;   // 设备号，对应值参考设备类型
 
+    @ApiField("channelBizData")
+    private String channelBizData;   // 渠道特殊参数
+
     public PayOrderCreateReqModel() {
     }
 
@@ -197,5 +200,13 @@ public class PayOrderCreateReqModel extends JeepayObject {
 
     public void setDeviceNo(String deviceNo) {
         this.deviceNo = deviceNo;
+    }
+
+    public String getChannelBizData() {
+        return channelBizData;
+    }
+
+    public void setChannelBizData(String channelBizData) {
+        this.channelBizData = channelBizData;
     }
 }
