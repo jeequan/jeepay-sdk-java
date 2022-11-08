@@ -12,6 +12,9 @@ import com.jeequan.jeepay.ApiField;
 */
 public class DivisionReceiverChannelBalanceQueryReqModel extends JeepayObject {
 
+    @ApiField("pas")
+    private String pas;
+
     @ApiField("mchNo")
     private String mchNo;      // 商户号
 
@@ -46,4 +49,13 @@ public class DivisionReceiverChannelBalanceQueryReqModel extends JeepayObject {
     public void setReceiverId(Long receiverId) {
         this.receiverId = receiverId;
     }
+
+    public String getPas() {
+        return pas;
+    }
+
+    public void setPas(String pas) {
+        this.pas = pas;
+    }
+
 }

@@ -12,6 +12,8 @@ public class PayOrderCreateReqModel extends JeepayObject {
 
     private static final long serialVersionUID = -3998573128290306948L;
 
+    @ApiField("pas")
+    private String pas;
     @ApiField("mchNo")
     private String mchNo;      // 商户号
     @ApiField("appId")
@@ -209,4 +211,13 @@ public class PayOrderCreateReqModel extends JeepayObject {
     public void setChannelBizData(String channelBizData) {
         this.channelBizData = channelBizData;
     }
+
+    public String getPas() {
+        return pas;
+    }
+
+    public void setPas(String pas) {
+        this.pas = pas;
+    }
+
 }

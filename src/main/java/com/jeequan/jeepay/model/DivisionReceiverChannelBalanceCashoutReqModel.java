@@ -12,6 +12,9 @@ import com.jeequan.jeepay.ApiField;
 */
 public class DivisionReceiverChannelBalanceCashoutReqModel extends JeepayObject {
 
+    @ApiField("pas")
+    private String pas;
+
     @ApiField("mchNo")
     private String mchNo;      // 商户号
 
@@ -56,5 +59,13 @@ public class DivisionReceiverChannelBalanceCashoutReqModel extends JeepayObject 
 
     public void setCashoutAmount(Long cashoutAmount) {
         this.cashoutAmount = cashoutAmount;
+    }
+
+    public String getPas() {
+        return pas;
+    }
+
+    public void setPas(String pas) {
+        this.pas = pas;
     }
 }

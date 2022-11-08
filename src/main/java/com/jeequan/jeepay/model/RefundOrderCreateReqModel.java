@@ -12,6 +12,8 @@ public class RefundOrderCreateReqModel extends JeepayObject {
 
     private static final long serialVersionUID = -3998573128290306948L;
 
+    @ApiField("pas")
+    private String pas;
     @ApiField("mchNo")
     private String mchNo;      // 商户号
     @ApiField("appId")
@@ -134,5 +136,13 @@ public class RefundOrderCreateReqModel extends JeepayObject {
 
     public void setExtParam(String extParam) {
         this.extParam = extParam;
+    }
+
+    public String getPas() {
+        return pas;
+    }
+
+    public void setPas(String pas) {
+        this.pas = pas;
     }
 }

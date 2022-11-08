@@ -13,6 +13,8 @@ public class TransferOrderQueryReqModel extends JeepayObject {
 
     private static final long serialVersionUID = -3998573128290306948L;
 
+    @ApiField("pas")
+    private String pas;
     @ApiField("mchNo")
     private String mchNo;      // 商户号
     @ApiField("appId")
@@ -55,5 +57,13 @@ public class TransferOrderQueryReqModel extends JeepayObject {
 
     public void setTransferId(String transferId) {
         this.transferId = transferId;
+    }
+
+    public String getPas() {
+        return pas;
+    }
+
+    public void setPas(String pas) {
+        this.pas = pas;
     }
 }

@@ -12,6 +12,9 @@ public class PayOrderQueryReqModel extends JeepayObject{
 
     private static final long serialVersionUID = -5184554341263929245L;
 
+    @ApiField("pas")
+    private String pas;
+
     /**
      * 商户号
      */
@@ -63,5 +66,13 @@ public class PayOrderQueryReqModel extends JeepayObject{
 
     public void setPayOrderId(String payOrderId) {
         this.payOrderId = payOrderId;
+    }
+
+    public String getPas() {
+        return pas;
+    }
+
+    public void setPas(String pas) {
+        this.pas = pas;
     }
 }

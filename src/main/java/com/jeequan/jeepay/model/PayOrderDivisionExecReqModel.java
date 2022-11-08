@@ -13,6 +13,9 @@ public class PayOrderDivisionExecReqModel extends JeepayObject {
 
     private static final long serialVersionUID = -3998573128290306948L;
 
+    @ApiField("pas")
+    private String pas;
+
     @ApiField("mchNo")
     private String mchNo;      // 商户号
 
@@ -100,5 +103,13 @@ public class PayOrderDivisionExecReqModel extends JeepayObject {
 
     public void setReceivers(String receivers) {
         this.receivers = receivers;
+    }
+
+    public String getPas() {
+        return pas;
+    }
+
+    public void setPas(String pas) {
+        this.pas = pas;
     }
 }
