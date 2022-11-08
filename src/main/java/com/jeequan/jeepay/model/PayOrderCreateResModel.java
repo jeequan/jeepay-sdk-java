@@ -36,6 +36,11 @@ public class PayOrderCreateResModel extends JeepayObject {
     private String payDataType;
 
     /**
+     * 订单信息， 当直接支付成功时会返回此数据
+     */
+    private String payOrderInfo;
+
+    /**
      * 支付参数
      */
     private String payData;
