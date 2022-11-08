@@ -48,11 +48,8 @@ public class PayOrderCreateReqModel extends JeepayObject {
     @ApiField("qrcId")
     private Long qrcId;   // 码牌ID
 
-    @ApiField("deviceType")
-    private String deviceType;   // 设备类型
-
-    @ApiField("deviceNo")
-    private String deviceNo;   // 设备号，对应值参考设备类型
+    @ApiField("deviceInfo")
+    private DeviceInfo deviceInfo;            // 设备参数
 
     @ApiField("channelBizData")
     private String channelBizData;   // 渠道特殊参数
@@ -188,20 +185,12 @@ public class PayOrderCreateReqModel extends JeepayObject {
         this.qrcId = qrcId;
     }
 
-    public String getDeviceType() {
-        return deviceType;
+    public DeviceInfo getDeviceInfo() {
+        return deviceInfo;
     }
 
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
-    }
-
-    public String getDeviceNo() {
-        return deviceNo;
-    }
-
-    public void setDeviceNo(String deviceNo) {
-        this.deviceNo = deviceNo;
+    public void setDeviceInfo(DeviceInfo deviceInfo) {
+        this.deviceInfo = deviceInfo;
     }
 
     public String getChannelBizData() {
