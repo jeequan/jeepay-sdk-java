@@ -87,6 +87,14 @@ public class PayOrderCreateResModel extends JeepayObject {
         this.payDataType = payDataType;
     }
 
+    public String getPayOrderInfo() {
+        return payOrderInfo;
+    }
+
+    public void setPayOrderInfo(String payOrderInfo) {
+        this.payOrderInfo = payOrderInfo;
+    }
+
     public String getPayData() {
         return payData;
     }
