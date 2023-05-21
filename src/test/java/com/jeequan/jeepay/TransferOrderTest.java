@@ -1,10 +1,13 @@
 package com.jeequan.jeepay;
 
 import com.jeequan.jeepay.exception.JeepayException;
+import com.jeequan.jeepay.model.TransferBalanceQueryReqModel;
 import com.jeequan.jeepay.model.TransferOrderCreateReqModel;
 import com.jeequan.jeepay.model.TransferOrderQueryReqModel;
+import com.jeequan.jeepay.request.TransferBalanceQueryRequest;
 import com.jeequan.jeepay.request.TransferOrderCreateRequest;
 import com.jeequan.jeepay.request.TransferOrderQueryRequest;
+import com.jeequan.jeepay.response.TransferBalanceQueryResponse;
 import com.jeequan.jeepay.response.TransferOrderCreateResponse;
 import com.jeequan.jeepay.response.TransferOrderQueryResponse;
 import org.junit.jupiter.api.BeforeAll;
@@ -35,12 +38,12 @@ class TransferOrderTest {
         model.setMchNo(Jeepay.mchNo);                       // 商户号
         model.setAppId(jeepayClient.getAppId());            // 应用ID
         model.setMchOrderNo("mho" + new Date().getTime());                // 商户转账单号
-        model.setAmount(1L);
+        model.setAmount(11L);
         model.setCurrency("CNY");
-        model.setIfCode("wxpay");
-        model.setEntryType("WX_CASH");
-        model.setAccountNo("a6BcIwtTvIqv1zXZohc61biryWok");
-        model.setAccountName("");
+        model.setIfCode("aliaqfpay");
+        model.setEntryType("ALIPAY_CASH");
+        model.setAccountNo("jmdhappy@126.com");
+        model.setAccountName("丁志伟");
         model.setTransferDesc("测试转账");
         model.setClientIp("192.166.1.132");                 // 发起转账请求客户端的IP地址
         request.setBizModel(model);
@@ -81,6 +84,29 @@ class TransferOrderTest {
                 _log.info("订单信息：{}", response);
                 _log.info("转账状态：{}", response.get().getState());
                 _log.info("转账金额：{}", response.get().getAmount());
+            }
+        } catch (JeepayException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testTransferBalanceQuery() {
+        // 转账接口文档：https://docs.jeequan.com/docs/jeepay/transfer_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
+        TransferBalanceQueryRequest request = new TransferBalanceQueryRequest();
+        TransferBalanceQueryReqModel model = new TransferBalanceQueryReqModel();
+        model.setMchNo(Jeepay.mchNo);                                          // 商户号
+        model.setAppId(jeepayClient.getAppId());                               // 应用ID
+        model.setIfCode("aliaqfpay");                         // 转账单号
+        request.setBizModel(model);
+        try {
+            TransferBalanceQueryResponse response = jeepayClient.execute(request);
+            _log.info("验签结果：{}", response.checkSign(Jeepay.apiKey));
+            if(response.isSuccess(Jeepay.apiKey)) {
+                _log.info("查询结果：{}", response);
+                _log.info("余额：{}", response.get().getBalanceAmount());
             }
         } catch (JeepayException e) {
             e.printStackTrace();
