@@ -48,7 +48,7 @@ class PayOrderTest {
 
         // 支付接口文档：https://docs.jeequan.com/docs/jeepay/payment_api
         JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
-        String wayCode = "WX_BAR";                           // 支付方式
+        String wayCode = "QR_CASHIER";                           // 支付方式
         PayOrderCreateRequest request = new PayOrderCreateRequest();
         PayOrderCreateReqModel model = new PayOrderCreateReqModel();
         model.setMchNo(Jeepay.mchNo);                       // 商户号
@@ -75,6 +75,7 @@ class PayOrderTest {
                 String payOrderId = response.get().getPayOrderId();
                 _log.info("payOrderId：{}", payOrderId);
                 _log.info("mchOrderNo：{}", response.get().getMchOrderNo());
+                _log.info("getPayData：{}", response.get().getPayData());
             }else {
                 _log.info("下单失败：{}", orderNo);
                 _log.info("通道错误码：{}", response.get().getErrCode());
@@ -131,7 +132,11 @@ class PayOrderTest {
 
     private String qrCashierExtra() {
         JSONObject obj = new JSONObject();
-        obj.put("payDataType", "codeImgUrl");
+        //obj.put("payDataType", "codeImgUrl");
+        //obj.put("entryPageType", "lite");
+        obj.put("entryLiteType", "alih5");
+        obj.put("payDataType", "codeUrl");
+
         return obj.toString();
     }
 
