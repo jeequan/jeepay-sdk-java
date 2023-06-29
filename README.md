@@ -43,6 +43,7 @@
     model.setChannelExtra(channelExtra(wayCode));       // 渠道扩展参数
     model.setExtParam("");                              // 商户扩展参数,回调时原样返回
     request.setBizModel(model);
+    
     // 发起统一下单
     PayOrderCreateResponse response = jeepayClient.execute(request);
 
