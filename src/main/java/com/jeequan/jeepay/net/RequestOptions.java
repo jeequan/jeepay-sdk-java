@@ -148,7 +148,7 @@ public class RequestOptions {
         }
 
         public RequestOptionsBuilder setAppId(String appId) {
-            this.apiKey = normalizeAppId(appId);
+            this.appId = normalizeAppId(appId);
             return this;
         }
 
