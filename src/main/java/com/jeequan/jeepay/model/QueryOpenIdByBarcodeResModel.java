@@ -1,12 +1,12 @@
 package com.jeequan.jeepay.model;
 
 /***
-* barcode条码换取 openId
-*
-* @author terrfly
-* @site https://www.jeequan.com
-* @date 2024/1/23 14:31
-*/
+ * barcode条码换取 openId
+ *
+ * @author terrfly
+ * @site https://www.jeequan.com
+ * @date 2024/1/23 14:31
+ */
 public class QueryOpenIdByBarcodeResModel extends JeepayObject {
 
     /**
@@ -23,6 +23,11 @@ public class QueryOpenIdByBarcodeResModel extends JeepayObject {
      * openId
      */
     private String openId;
+
+    /**
+     * subOpenId
+     */
+    private String subOpenId;
 
     public String getMchNo() {
         return mchNo;
@@ -46,5 +51,13 @@ public class QueryOpenIdByBarcodeResModel extends JeepayObject {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public String getSubOpenId() {
+        return subOpenId;
+    }
+
+    public void setSubOpenId(String subOpenId) {
+        this.subOpenId = subOpenId;
     }
 }
