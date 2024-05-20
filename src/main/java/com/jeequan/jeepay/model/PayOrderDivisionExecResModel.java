@@ -20,6 +20,11 @@ public class PayOrderDivisionExecResModel extends JeepayObject {
     private String channelBatchOrderId;
 
     /**
+     * 系统分账批次号
+     */
+    private String batchOrderId;
+
+    /**
      * 支付渠道错误码
      */
     private String errCode;
@@ -44,6 +49,14 @@ public class PayOrderDivisionExecResModel extends JeepayObject {
 
     public void setChannelBatchOrderId(String channelBatchOrderId) {
         this.channelBatchOrderId = channelBatchOrderId;
+    }
+
+    public String getBatchOrderId() {
+        return batchOrderId;
+    }
+
+    public void setBatchOrderId(String batchOrderId) {
+        this.batchOrderId = batchOrderId;
     }
 
     public String getErrCode() {
