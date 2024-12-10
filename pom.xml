@@ -6,7 +6,7 @@
 
     <groupId>com.jeequan</groupId>
     <artifactId>jeepay-sdk-java</artifactId>
-    <version>pls-1.4.4</version>
+    <version>pls-1.4.3</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
