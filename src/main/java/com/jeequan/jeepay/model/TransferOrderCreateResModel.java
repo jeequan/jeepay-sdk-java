@@ -56,6 +56,11 @@ public class TransferOrderCreateResModel extends JeepayObject {
     private String channelOrderNo;
 
     /**
+     * 渠道响应数据（如微信确认数据包）
+     */
+    private String channelResData;
+
+    /**
      * 支付渠道错误码
      */
     private String errCode;
@@ -128,6 +133,14 @@ public class TransferOrderCreateResModel extends JeepayObject {
 
     public void setChannelOrderNo(String channelOrderNo) {
         this.channelOrderNo = channelOrderNo;
+    }
+
+    public String getChannelResData() {
+        return channelResData;
+    }
+
+    public void setChannelResData(String channelResData) {
+        this.channelResData = channelResData;
     }
 
     public String getErrCode() {
