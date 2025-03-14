@@ -2,17 +2,17 @@
 
 ## 接口文档
 
-接口文档：[https://docs.jeequan.com/docs/jeepay/payment_api](https://docs.jeequan.com/docs/jeepay/payment_api "Jeepay接口文档")
+接口文档：[https://doc.jeequan.com/#/integrate/open/api](https://doc.jeequan.com/#/integrate/open/api "Jeepay接口文档")
 
 ## 快速开始
 
-引入sdk依赖（最新发布版本1.5.0），支持：支付、退款、转账、分账等接口。
+引入sdk依赖（最新发布版本1.6.1），支持：支付、退款、转账、分账等接口。
 
 ```xml
   <dependency>
       <groupId>com.jeequan</groupId>
       <artifactId>jeepay-sdk-java</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.1</version>
   </dependency>
 ```
 
@@ -134,6 +134,6 @@ Jeepay使用`Spring Boot`和`Ant Design Vue`开发，集成`Spring Security`实�
 
 - Jeepay支付流程体验：[https://www.jeequan.com/demo/jeepay_cashier.html](https://www.jeequan.com/demo/jeepay_cashier.html "Jeepay支付体验")
 - Jeepay运营平台和商户系统演体验：[https://www.jeequan.com/doc/detail_84.html](https://www.jeequan.com/doc/detail_84.html "Jeepay支付系统体验")
-- Jeepay项目文档：[https://docs.jeequan.com/docs/jeepay/index](https://docs.jeequan.com/docs/jeepay/index "Jeepay项目文档")
+- Jeepay项目文档：[https://doc.jeequan.com/#/integrate/open](https://doc.jeequan.com/#/integrate/open "Jeepay项目文档")
 
 Jeepay项目地址：[https://gitee.com/jeequan](https://gitee.com/jeequan "Jeepay项目")
