@@ -13,6 +13,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * API请求
@@ -66,7 +67,7 @@ public class APIJeepayRequest {
             RequestOptions options)
             throws JeepayException {
         try {
-            this.params = (params != null) ? Collections.unmodifiableMap(params) : null;
+            this.params = Collections.unmodifiableMap(new ConcurrentHashMap<>(params != null ? params : new HashMap<>()));
             this.options = options;
             this.method = method;
             this.url = buildURL(method, StringUtils.genUrl(url, this.options.getUri()), params);
@@ -84,15 +85,12 @@ public class APIJeepayRequest {
     private static URL buildURL(
             APIResource.RequestMethod method, String spec, Map<String, Object> params)
             throws IOException {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(spec);
+        StringBuilder sb = new StringBuilder(spec);
 
         if ((method != APIResource.RequestMethod.POST && method != APIResource.RequestMethod.PUT) && (params != null)) {
             String queryString = createQuery(params);
             if (!queryString.isEmpty()) {
-                sb.append("?");
-                sb.append(queryString);
+                sb.append("?").append(queryString);
             }
         }
 
@@ -131,7 +129,7 @@ public class APIJeepayRequest {
      * @return queryString
      */
     private static String createQuery(Map<String, Object> params) {
-        if (params == null) {
+        if (params == null || params.isEmpty()) {
             return "";
         }
 
@@ -141,8 +139,7 @@ public class APIJeepayRequest {
             if (queryStringBuffer.length() > 0) {
                 queryStringBuffer.append("&");
             }
-            queryStringBuffer.append(urlEncodePair(entry.getKey(),
-                    entry.getValue()));
+            queryStringBuffer.append(urlEncodePair(entry.getKey(), entry.getValue()));
         }
         return queryStringBuffer.toString();
     }
@@ -162,7 +159,7 @@ public class APIJeepayRequest {
      */
     protected static String urlEncode(String str) {
         if (str == null) {
-            return null;
+            return "";
         }
 
         try {
@@ -178,29 +175,18 @@ public class APIJeepayRequest {
      */
     private static Map<String, String> flattenParams(Map<String, Object> params) {
         if (params == null) {
-            return new HashMap<String, String>();
+            return Collections.emptyMap();
         }
-        Map<String, String> flatParams = new HashMap<String, String>();
+
+        Map<String, String> flatParams = new ConcurrentHashMap<>();
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
+
             if (value instanceof Map<?, ?>) {
-                Map<String, Object> flatNestedMap = new HashMap<String, Object>();
-                Map<?, ?> nestedMap = (Map<?, ?>) value;
-                for (Map.Entry<?, ?> nestedEntry : nestedMap.entrySet()) {
-                    flatNestedMap.put(
-                            String.format("%s[%s]", key, nestedEntry.getKey()),
-                            nestedEntry.getValue());
-                }
-                flatParams.putAll(flattenParams(flatNestedMap));
-            } else if (value instanceof ArrayList<?>) {
-                ArrayList<?> ar = (ArrayList<?>) value;
-                Map<String, Object> flatNestedMap = new HashMap<String, Object>();
-                int size = ar.size();
-                for (int i = 0; i < size; i++) {
-                    flatNestedMap.put(String.format("%s[%d]", key, i), ar.get(i));
-                }
-                flatParams.putAll(flattenParams(flatNestedMap));
+                flattenNestedMap(key, (Map<?, ?>) value, flatParams);
+            } else if (value instanceof List<?>) {
+                flattenNestedList(key, (List<?>) value, flatParams);
             } else if (value == null) {
                 flatParams.put(key, "");
             } else {
@@ -210,18 +196,46 @@ public class APIJeepayRequest {
         return flatParams;
     }
 
+    private static void flattenNestedMap(String prefix, Map<?, ?> nestedMap, Map<String, String> flatParams) {
+        for (Map.Entry<?, ?> entry : nestedMap.entrySet()) {
+            String newKey = String.format("%s[%s]", prefix, entry.getKey());
+            Object value = entry.getValue();
+            if (value instanceof Map<?, ?>) {
+                flattenNestedMap(newKey, (Map<?, ?>) value, flatParams);
+            } else if (value instanceof List<?>) {
+                flattenNestedList(newKey, (List<?>) value, flatParams);
+            } else {
+                flatParams.put(newKey, value == null ? "" : value.toString());
+            }
+        }
+    }
+
+    private static void flattenNestedList(String prefix, List<?> nestedList, Map<String, String> flatParams) {
+        for (int i = 0; i < nestedList.size(); i++) {
+            String newKey = String.format("%s[%d]", prefix, i);
+            Object value = nestedList.get(i);
+            if (value instanceof Map<?, ?>) {
+                flattenNestedMap(newKey, (Map<?, ?>) value, flatParams);
+            } else if (value instanceof List<?>) {
+                flattenNestedList(newKey, (List<?>) value, flatParams);
+            } else {
+                flatParams.put(newKey, value == null ? "" : value.toString());
+            }
+        }
+    }
+
     private static HttpHeaders buildHeaders(APIResource.RequestMethod method, RequestOptions options)
             throws JeepayException {
-        Map<String, List<String>> headerMap = new HashMap<String, List<String>>();
+        Map<String, List<String>> headerMap = new HashMap<>();
 
         // Accept
-        headerMap.put("Accept", Collections.singletonList("application/json"));
+        headerMap.put("Accept", singletonList("application/json"));
 
         // Accept-Charset
-        headerMap.put("Accept-Charset", Collections.singletonList(APIResource.CHARSET.name()));
+        headerMap.put("Accept-Charset", singletonList(APIResource.CHARSET.name()));
 
         // Accept-Language
-        headerMap.put("Accept-Language", Collections.singletonList(options.getAcceptLanguage()));
+        headerMap.put("Accept-Language", singletonList(options.getAcceptLanguage()));
 
         return HttpHeaders.of(headerMap);
     }
@@ -230,21 +244,29 @@ public class APIJeepayRequest {
             throws IOException {
 
         String signType = options.getSignType();
-        if("MD5".equalsIgnoreCase(signType)) {
+        if ("MD5".equalsIgnoreCase(signType)) {
             return JeepayKit.getSign(params, options.getApiKey());
-        }else if("RSA2".equalsIgnoreCase(signType)) {
+        } else if ("RSA2".equalsIgnoreCase(signType)) {
             try {
                 return JeepayRSA2Kit.getSign(params, options.getApiKey());
             } catch (Exception e) {
-                throw new IOException(e.getMessage());
+                throw new IOException("RSA2签名生成失败: " + e.getMessage(), e);
             }
         }
         throw new AssertionError("请设置正确的签名类型");
     }
 
+    /**
+     * 获取当前时间的13位毫秒级时间戳字符串表示。
+     *
+     * @return 当前时间的13位毫秒级时间戳字符串
+     */
     protected static String currentTimeString() {
-        int requestTime = (int) (System.currentTimeMillis() / 1000);
-        return Integer.toString(requestTime);
+        return String.valueOf(System.currentTimeMillis());
+    }
+
+    private static List<String> singletonList(String value) {
+        return Collections.singletonList(value);
     }
 
     public APIResource.RequestMethod getMethod() {
