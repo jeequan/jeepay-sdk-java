@@ -212,75 +212,75 @@ public class APIJeepayRequest {
      * @return flattenParams
      */
     private static Map<String, String> flattenParams(Map<String, Object> params) {
-    // 如果输入参数为 null，返回空 Map
-    if (params == null) {
-        return new HashMap<>();
-    }
-
-    Map<String, String> flatParams = new HashMap<>();
-
-    for (Map.Entry<String, Object> entry : params.entrySet()) {
-        String key = entry.getKey();
-        Object value = entry.getValue();
-
-        // 处理空键的情况
-        if (key == null) {
-            continue;
+        // 如果输入参数为 null，返回空 Map
+        if (params == null) {
+            return new HashMap<>();
         }
 
-        if (value instanceof Map<?, ?>) {
-            // 处理嵌套 Map
-            handleNestedMap(key, (Map<?, ?>) value, flatParams);
-        } else if (value instanceof List<?>) {
-            // 处理 List 类型（包括 ArrayList 和其他实现）
-            handleNestedList(key, (List<?>) value, flatParams);
-        } else if (value == null) {
-            // 处理 null 值
-            flatParams.put(key, "");
-        } else {
-            // 处理普通值
-            flatParams.put(key, value.toString());
+        Map<String, String> flatParams = new HashMap<>();
+
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            // 处理空键的情况
+            if (key == null) {
+                continue;
+            }
+
+            if (value instanceof Map<?, ?>) {
+                // 处理嵌套 Map
+                handleNestedMap(key, (Map<?, ?>) value, flatParams);
+            } else if (value instanceof List<?>) {
+                // 处理 List 类型（包括 ArrayList 和其他实现）
+                handleNestedList(key, (List<?>) value, flatParams);
+            } else if (value == null) {
+                // 处理 null 值
+                flatParams.put(key, "");
+            } else {
+                // 处理普通值
+                flatParams.put(key, value.toString());
+            }
+        }
+
+        return flatParams;
+    }
+
+    // 辅助方法：处理嵌套 Map
+    private static void handleNestedMap(String parentKey, Map<?, ?> nestedMap, Map<String, String> flatParams) {
+        for (Map.Entry<?, ?> nestedEntry : nestedMap.entrySet()) {
+            String childKey = String.format("%s[%s]", parentKey, nestedEntry.getKey() != null ? nestedEntry.getKey().toString() : "null");
+            Object childValue = nestedEntry.getValue();
+
+            if (childValue instanceof Map<?, ?>) {
+                handleNestedMap(childKey, (Map<?, ?>) childValue, flatParams);
+            } else if (childValue instanceof List<?>) {
+                handleNestedList(childKey, (List<?>) childValue, flatParams);
+            } else if (childValue == null) {
+                flatParams.put(childKey, "");
+            } else {
+                flatParams.put(childKey, childValue.toString());
+            }
         }
     }
 
-    return flatParams;
-}
+    // 辅助方法：处理嵌套 List
+    private static void handleNestedList(String parentKey, List<?> nestedList, Map<String, String> flatParams) {
+        for (int i = 0; i < nestedList.size(); i++) {
+            String childKey = String.format("%s[%d]", parentKey, i);
+            Object childValue = nestedList.get(i);
 
-// 辅助方法：处理嵌套 Map
-private static void handleNestedMap(String parentKey, Map<?, ?> nestedMap, Map<String, String> flatParams) {
-    for (Map.Entry<?, ?> nestedEntry : nestedMap.entrySet()) {
-        String childKey = String.format("%s[%s]", parentKey, nestedEntry.getKey() != null ? nestedEntry.getKey().toString() : "null");
-        Object childValue = nestedEntry.getValue();
-
-        if (childValue instanceof Map<?, ?>) {
-            handleNestedMap(childKey, (Map<?, ?>) childValue, flatParams);
-        } else if (childValue instanceof List<?>) {
-            handleNestedList(childKey, (List<?>) childValue, flatParams);
-        } else if (childValue == null) {
-            flatParams.put(childKey, "");
-        } else {
-            flatParams.put(childKey, childValue.toString());
+            if (childValue instanceof Map<?, ?>) {
+                handleNestedMap(childKey, (Map<?, ?>) childValue, flatParams);
+            } else if (childValue instanceof List<?>) {
+                handleNestedList(childKey, (List<?>) childValue, flatParams);
+            } else if (childValue == null) {
+                flatParams.put(childKey, "");
+            } else {
+                flatParams.put(childKey, childValue.toString());
+            }
         }
     }
-}
-
-// 辅助方法：处理嵌套 List
-private static void handleNestedList(String parentKey, List<?> nestedList, Map<String, String> flatParams) {
-    for (int i = 0; i < nestedList.size(); i++) {
-        String childKey = String.format("%s[%d]", parentKey, i);
-        Object childValue = nestedList.get(i);
-
-        if (childValue instanceof Map<?, ?>) {
-            handleNestedMap(childKey, (Map<?, ?>) childValue, flatParams);
-        } else if (childValue instanceof List<?>) {
-            handleNestedList(childKey, (List<?>) childValue, flatParams);
-        } else if (childValue == null) {
-            flatParams.put(childKey, "");
-        } else {
-            flatParams.put(childKey, childValue.toString());
-        }
-    }
-}
 
 
     private static HttpHeaders buildHeaders(APIResource.RequestMethod method, RequestOptions options)
