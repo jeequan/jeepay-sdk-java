@@ -135,5 +135,3 @@ Jeepay使用`Spring Boot`和`Ant Design Vue`开发，集成`Spring Security`实�
 - Jeepay支付流程体验：[https://www.jeequan.com/demo/jeepay_cashier.html](https://www.jeequan.com/demo/jeepay_cashier.html "Jeepay支付体验")
 - Jeepay运营平台和商户系统演体验：[https://www.jeequan.com/doc/detail_84.html](https://www.jeequan.com/doc/detail_84.html "Jeepay支付系统体验")
 - Jeepay项目文档：[https://doc.jeequan.com/#/integrate/open](https://doc.jeequan.com/#/integrate/open "Jeepay项目文档")
-
-Jeepay项目地址：[https://gitee.com/jeequan](https://gitee.com/jeequan "Jeepay项目")
