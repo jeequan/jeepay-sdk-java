@@ -3,13 +3,13 @@ package com.jeequan.jeepay.model;
 import com.jeequan.jeepay.ApiField;
 
 /***
-* 发起分账
 *
+* 分账完结接口
 * @author terrfly
-* @site https://www.jeepay.vip
-* @date 2021/8/27 10:16
+* @site https://www.jeequan.com
+* @date 2024/5/20 14:28
 */
-public class PayOrderDivisionExecReqModel extends JeepayObject {
+public class PayOrderDivisionFinishReqModel extends JeepayObject {
 
     private static final long serialVersionUID = -3998573128290306948L;
 
@@ -29,33 +29,6 @@ public class PayOrderDivisionExecReqModel extends JeepayObject {
     /** 支付系统订单号 **/
     @ApiField("payOrderId")
     private String payOrderId;
-
-    /**
-     * 是否解冻剩余未分资金： 0-否 1-是
-     **/
-    @ApiField("autoFinish")
-    private Byte autoFinish;
-
-    /**
-     * 分账模板
-     **/
-    @ApiField("templateId")
-    private Long templateId;
-
-    /** 接收者账号列表（JSONArray 转换为字符串类型）
-     *
-     * 参考：
-     *
-     * 方式1： 按账号纬度
-     * [{
-     *     receiverId: 800001,
-     *     divisionProfit: 0.1 (若不填入则使用系统默认配置值)
-     * }]
-     *
-     *
-     * **/
-    @ApiField("receivers")
-    private String receivers;
 
     public String getMchNo() {
         return mchNo;
@@ -87,30 +60,6 @@ public class PayOrderDivisionExecReqModel extends JeepayObject {
 
     public void setPayOrderId(String payOrderId) {
         this.payOrderId = payOrderId;
-    }
-
-    public Byte getAutoFinish() {
-        return autoFinish;
-    }
-
-    public void setAutoFinish(Byte autoFinish) {
-        this.autoFinish = autoFinish;
-    }
-
-    public Long getTemplateId() {
-        return templateId;
-    }
-
-    public void setTemplateId(Long templateId) {
-        this.templateId = templateId;
-    }
-
-    public String getReceivers() {
-        return receivers;
-    }
-
-    public void setReceivers(String receivers) {
-        this.receivers = receivers;
     }
 
     public String getPas() {

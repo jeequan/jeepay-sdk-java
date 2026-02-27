@@ -25,9 +25,16 @@ public class DivisionReceiverChannelBalanceCashoutReqModel extends JeepayObject 
     @ApiField("receiverId")
     private Long receiverId;
 
+    /** 商户提现单号 **/
+    @ApiField("mchOrderNo")
+    private String mchOrderNo;
+
     /** 提现金额： 单位：分   **/
     @ApiField("cashoutAmount")
     private Long cashoutAmount;
+
+    @ApiField("remark")
+    private String remark;                // 备注
 
     public String getMchNo() {
         return mchNo;
@@ -67,5 +74,21 @@ public class DivisionReceiverChannelBalanceCashoutReqModel extends JeepayObject 
 
     public void setPas(String pas) {
         this.pas = pas;
+    }
+
+    public String getMchOrderNo() {
+        return mchOrderNo;
+    }
+
+    public void setMchOrderNo(String mchOrderNo) {
+        this.mchOrderNo = mchOrderNo;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

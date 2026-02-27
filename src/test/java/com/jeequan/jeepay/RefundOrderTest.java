@@ -35,10 +35,10 @@ class RefundOrderTest {
         model.setMchNo(Jeepay.mchNo);                       // 商户号
         model.setAppId(jeepayClient.getAppId());            // 应用ID
         model.setMchOrderNo("");                            // 商户支付单号(与支付订单号二者传一)
-        model.setPayOrderId("P202106181104177050002");      // 支付订单号(与商户支付单号二者传一)
+        model.setPayOrderId("P1759746996878761986");      // 支付订单号(与商户支付单号二者传一)
         String refundOrderNo = "mho" + new Date().getTime();
         model.setMchRefundNo(refundOrderNo);                // 商户退款单号
-        model.setRefundAmount(4l);                          // 退款金额，单位分
+        model.setRefundAmount(1l);                          // 退款金额，单位分
         model.setCurrency("cny");                           // 币种，目前只支持cny
         model.setClientIp("192.166.1.132");                 // 发起支付请求客户端的IP地址
         model.setRefundReason("退款测试");                    // 退款原因

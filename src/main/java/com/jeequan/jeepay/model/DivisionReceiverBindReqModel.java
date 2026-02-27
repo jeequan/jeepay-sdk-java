@@ -23,6 +23,10 @@ public class DivisionReceiverBindReqModel extends JeepayObject {
     @ApiField("appId")
     private String appId;      // 应用ID
 
+    /** 商户分账用户ID **/
+    @ApiField("mchReceiverId")
+    private String mchReceiverId;
+
     /** 支付接口代码   **/
     @ApiField("ifCode")
     private String ifCode;
@@ -30,10 +34,6 @@ public class DivisionReceiverBindReqModel extends JeepayObject {
     /** 接收者账号别名 **/
     @ApiField("receiverAlias")
     private String receiverAlias;
-
-    /** 组ID  **/
-    @ApiField("receiverGroupId")
-    private Long receiverGroupId;
 
     /** 分账接收账号类型: 0-个人(对私) 1-商户(对公) **/
     @ApiField("accType")
@@ -79,6 +79,14 @@ public class DivisionReceiverBindReqModel extends JeepayObject {
         this.appId = appId;
     }
 
+    public String getMchReceiverId() {
+        return mchReceiverId;
+    }
+
+    public void setMchReceiverId(String mchReceiverId) {
+        this.mchReceiverId = mchReceiverId;
+    }
+
     public String getIfCode() {
         return ifCode;
     }
@@ -93,14 +101,6 @@ public class DivisionReceiverBindReqModel extends JeepayObject {
 
     public void setReceiverAlias(String receiverAlias) {
         this.receiverAlias = receiverAlias;
-    }
-
-    public Long getReceiverGroupId() {
-        return receiverGroupId;
-    }
-
-    public void setReceiverGroupId(Long receiverGroupId) {
-        this.receiverGroupId = receiverGroupId;
     }
 
     public Byte getAccType() {

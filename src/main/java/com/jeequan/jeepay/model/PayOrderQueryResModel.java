@@ -150,9 +150,14 @@ public class PayOrderQueryResModel extends JeepayObject {
     private String channelUser;
 
     /**
-     * 订单分账模式：0-该笔订单不允许分账, 1-支付成功按配置自动完成分账, 2-商户手动分账(解冻商户金额)
+     * 订单分账模式：0-该笔订单不允许分账, 1-支付成功按配置自动完成分账, 2-商户手动分账
      */
     private Byte divisionMode;
+
+    /**
+     * 订单分账状态：0-未分账, 1-待分账, 2-分账中, 3-已分账, 4-完结中, 5-已完结, 6-已分账完结失败
+     */
+    private Byte divisionState;
 
     /**
      * 买家备注
@@ -394,6 +399,14 @@ public class PayOrderQueryResModel extends JeepayObject {
 
     public void setDivisionMode(Byte divisionMode) {
         this.divisionMode = divisionMode;
+    }
+
+    public Byte getDivisionState() {
+        return divisionState;
+    }
+
+    public void setDivisionState(Byte divisionState) {
+        this.divisionState = divisionState;
     }
 
     public String getBuyerRemark() {

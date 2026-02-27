@@ -48,7 +48,7 @@ class PayOrderTest {
 
         // 支付接口文档：https://docs.jeequan.com/docs/jeepay/payment_api
         JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
-        String wayCode = "QR_CASHIER";                           // 支付方式
+        String wayCode = "ALI_QR";                           // 支付方式
         PayOrderCreateRequest request = new PayOrderCreateRequest();
         PayOrderCreateReqModel model = new PayOrderCreateReqModel();
         model.setMchNo(Jeepay.mchNo);                       // 商户号
@@ -66,10 +66,21 @@ class PayOrderTest {
         model.setChannelExtra(channelExtra(wayCode));       // 渠道扩展参数
         model.setExtParam("");                              // 商户扩展参数,回调时原样返回
 
+        /*DeviceInfo deviceInfo = new DeviceInfo();
+        deviceInfo.setDeviceNo("11");
+        deviceInfo.setProvider("123456789012345678901234567890");
+        deviceInfo.setDeviceType("cash_plugin");
+        model.setDeviceInfo(deviceInfo);*/
+
         request.setBizModel(model);
         try {
             PayOrderCreateResponse response = jeepayClient.execute(request);
             _log.info("验签结果：{}", response.checkSign(Jeepay.apiKey));
+
+            if (!response.checkSign(Jeepay.apiKey)) {
+                _log.info("=================================验签失败=================================：");
+            }
+
             // 下单成功
             if(response.isSuccess(Jeepay.apiKey)) {
                 String payOrderId = response.get().getPayOrderId();

@@ -43,7 +43,7 @@ public class PayOrderCreateReqModel extends JeepayObject {
     @ApiField("extParam")
     String extParam;            // 商户扩展参数
     @ApiField("divisionMode")
-    private Byte divisionMode;   // 分账模式： 0-该笔订单不允许分账[默认], 1-支付成功按配置自动完成分账, 2-商户手动分账(解冻商户金额)
+    private Byte divisionMode;   // 分账模式： 0-该笔订单不允许分账, 1-支付成功按配置自动完成分账, 2-商户手动分账
     @ApiField("storeId")
     private Long storeId;   // 门店编号
     @ApiField("qrcId")

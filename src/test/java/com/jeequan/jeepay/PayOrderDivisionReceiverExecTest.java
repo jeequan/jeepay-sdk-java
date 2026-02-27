@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jeequan.jeepay.exception.JeepayException;
 import com.jeequan.jeepay.model.PayOrderDivisionExecReqModel;
+import com.jeequan.jeepay.model.PayOrderDivisionFinishReqModel;
 import com.jeequan.jeepay.model.PayOrderDivisionQueryReqModel;
 import com.jeequan.jeepay.request.PayOrderDivisionExecRequest;
+import com.jeequan.jeepay.request.PayOrderDivisionFinishRequest;
 import com.jeequan.jeepay.request.PayOrderDivisionQueryRequest;
 import com.jeequan.jeepay.response.PayOrderDivisionExecResponse;
+import com.jeequan.jeepay.response.PayOrderDivisionFinishResponse;
 import com.jeequan.jeepay.response.PayOrderDivisionQueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -36,7 +39,6 @@ class PayOrderDivisionReceiverExecTest {
         model.setMchNo(Jeepay.mchNo);                       // 商户号
         model.setAppId(jeepayClient.getAppId());            // 应用ID
         model.setPayOrderId("P1792369673117708289");
-        model.setUseSysAutoDivisionReceivers((byte) 0);
 
         JSONArray receviers = new JSONArray();
         receviers.add(JSONObject.parseObject("{receiverId: '800002', receiverGroupId: '', divisionProfit: '0.1'}"));
@@ -86,6 +88,32 @@ class PayOrderDivisionReceiverExecTest {
 
             }else {
                 _log.info("分账查询失败：payOrderId：{}", model.getPayOrderId());
+            }
+        } catch (JeepayException e) {
+            _log.error(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testPayOrderDivisionFinish() {
+        // 分账接口文档：https://docs.jeequan.com/docs/jeepay/division_api
+        JeepayClient jeepayClient = JeepayClient.getInstance(Jeepay.appId, Jeepay.apiKey, Jeepay.getApiBase());
+        PayOrderDivisionFinishRequest request = new PayOrderDivisionFinishRequest();
+        PayOrderDivisionFinishReqModel model = new PayOrderDivisionFinishReqModel();
+        request.setBizModel(model);
+        model.setMchNo(Jeepay.mchNo);                       // 商户号
+        model.setAppId(jeepayClient.getAppId());            // 应用ID
+        model.setPayOrderId("P1839557492137529346");
+
+
+        try {
+            PayOrderDivisionFinishResponse response = jeepayClient.execute(request);
+            _log.info("验签结果：{}", response.checkSign(Jeepay.apiKey));
+            if(response.isSuccess(Jeepay.apiKey)) {
+                _log.info("渠道分账批次号：{}， 分账完结成功", response.get());
+
+            }else {
+                _log.info("分账完结失败：payOrderId：{}", model.getPayOrderId());
             }
         } catch (JeepayException e) {
             _log.error(e.getMessage());
