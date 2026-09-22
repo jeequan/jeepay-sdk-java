@@ -6,7 +6,7 @@
 
     <groupId>com.jeequan</groupId>
     <artifactId>jeepay-sdk-java</artifactId>
-    <version>1.6.1</version>
+    <version>1.6.2</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -40,7 +40,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <logback-classic.version>1.2.7</logback-classic.version>
-        <fastjson.version>1.2.78</fastjson.version>
+        <fastjson.version>2.0.57</fastjson.version> <!-- 1.x API 兼容层（内核 fastjson2），修复 RCE（1.2.83 及以下无修复版） -->
     </properties>
 
     <dependencies>
