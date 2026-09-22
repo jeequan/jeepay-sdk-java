@@ -103,7 +103,7 @@
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>1.6</version>
                         <configuration>
-                            <executable>/usr/local/bin/gpg</executable>
+                            <executable>gpg</executable> <!-- PATH 查找，避免绝对路径在 Apple Silicon/CI 上失效 -->
                             <keyname>jeequan</keyname>
                         </configuration>
                         <executions>
